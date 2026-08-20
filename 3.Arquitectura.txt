@@ -1,0 +1,28 @@
+Punto 1.-
+Proposito:
+Entregar informacion sobre literatura moderna y clasica facil de entender.
+Usuario objetivo.- Cualquier persona interesada en informacion literaria.
+
+
+Punto 2.-
+SECCIONES:
+
+HOME
+-BUSQUEDA
+AUTORES
+-BUSQUEDA
+TEMAS
+-BUSQUEDA
+EDICIONES*
+
+DESTACADOS*
+NOVEDADES*
+
+PORTADAS
+
+-ACERCA DE NOSOTROS-
+
+-DETALLES DE UN LIBRO-
+
+
+
