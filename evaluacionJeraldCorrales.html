@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Evaluación JavaScript</title>
+</head>
+<body>
+<h1>Evaluación de Contenido Avanzado</h1>
+<p>Revisa el resultado en la consola del navegador.</p>
+<script>
+const productos = [
+{ id: 1, nombre: "Hamburguesa", precio: 28, stock: 8 },
+{ id: 2, nombre: "Pizza personal", precio: 32, stock: 6 },
+{ id: 3, nombre: "Ensalada", precio: 24, stock: 7 },
+{ id: 4, nombre: "Refresco", precio: 10, stock: 15 },
+{ id: 5, nombre: "Cafe", precio: 12, stock: 12 }
+];
+const pedidos = [
+{
+id: 101,
+cliente: "Ana",
+tipoCliente: "regular",
+zona: "A",
+items: [
+{ productoId: 1, cantidad: 2 },
+{ productoId: 4, cantidad: 2 }
+]
+},
+{
+id: 102,
+cliente: "Bruno",
+tipoCliente: "estudiante",
+zona: "B",
+items: [
+{ productoId: 2, cantidad: 1 },
+{ productoId: 5, cantidad: 1 }
+]
+},
+{
+id: 103,
+cliente: "Carla",
+tipoCliente: "frecuente",
+zona: "C",
+items: [
+{ productoId: 3, cantidad: 2 },
+{ productoId: 4, cantidad: 1 },
+{ productoId: 5, cantidad: 1 }
+]
+},
+{
+id: 104,
+cliente: "Diego",
+tipoCliente: "regular",
+zona: "A",
+items: [
+{ productoId: 1, cantidad: 1 },
+{ productoId: 2, cantidad: 2 }
+]
+},
+{
+id: 105,
+cliente: "Elena",
+tipoCliente: "estudiante",
+zona: "B",
+items: [
+{ productoId: 3, cantidad: 1 },
+{ productoId: 4, cantidad: 3 }
+]
+},
+{
+id: 106,
+cliente: "Fabian",
+tipoCliente: "frecuente",
+zona: "C",
+items: [
+{ productoId: 1, cantidad: 3 },
+{ productoId: 5, cantidad: 2 }
+]
+}
+];
+</script>
+<!-- EL ESTUDIANTE TRABAJA AQUÍ -->
+<script>
+function buscarProducto(id) {
+    console.log(productos = [id, nombre, precio, stock]);
+} 
+ function calcularSubtotal(pedido) {
+    productos = precio * cantidad
+    return productos;
+ }
+ function calcularDescuento(tipoCliente) {
+    if (calcularSubtotal >= 120) {
+        puntos = 0
+        puntos = + 3
+    } else {
+    if (tipoCliente = "estudiante") {
+        descuentoEstudiante = 0.10
+        calcularDescuento = productos * descuentoEstudiante
+    } if (tipoCliente = "frecuente") {
+        descuentoFrecuente = 0.07
+        calcularDescuento = productos * descuentoFrecuente
+    } if (tipoCliente = "regular") {
+        calcularDescuento = productos
+    }
+    }
+ }
+ function calcularEnvio(pedido, totalAntesEnvio) {
+    distancia [A = 5, B = 8, C = 12]
+    if (calcularDescuento <= 120) {
+        console.log("No hay costo de envio");
+    } else {
+        calcularEnvio = calcularDescuento + A
+        calcularEnvio = calcularDescuento + B
+        calcularEnvio = calcularDescuento + C
+    }
+ }
+ function cliente(nivel, puntos) {
+    if (puntos == 0 <= 19 ) {
+        nivel = "Bronce"
+    }if (puntos == 20 <= 29) {
+        nivel = "Plata"
+    }if (puntos > 30 ) {
+        nivel = "Oro"
+    }
+ }
+</script>
+</body>
+</html>
