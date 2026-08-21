@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <title>Evaluación JavaScript</title>
+        </head>
+        <body>
+            <h1>Evaluación de Contenido Avanzado</h1>
+            <p>Revisa el resultado en la consola del navegador.</p>
+            <script>
+            const productos = [
+                { id: 1, nombre: "Hamburguesa", precio: 28, stock: 8 },
+                { id: 2, nombre: "Pizza personal", precio: 32, stock: 6 },
+                { id: 3, nombre: "Ensalada", precio: 24, stock: 7 },
+                { id: 4, nombre: "Refresco", precio: 10, stock: 15 },
+                { id: 5, nombre: "Cafe", precio: 12, stock: 12 }
+            ];
+            const pedidos = [
+            {
+                id: 101,
+                cliente: "Ana",
+                tipoCliente: "regular",
+                zona: "A",
+                items: [
+                { productoId: 1, cantidad: 2 },
+                { productoId: 4, cantidad: 2 }
+                ]
+            },
+            {
+                id: 102,
+                cliente: "Bruno",
+                tipoCliente: "estudiante",
+                zona: "B",
+                items: [
+                { productoId: 2, cantidad: 1 },
+                { productoId: 5, cantidad: 1 }
+                ]
+            },
+            {
+            id: 103,
+            cliente: "Carla",
+            tipoCliente: "frecuente",
+            zona: "C",
+            items: [
+            { productoId: 3, cantidad: 2 },
+            { productoId: 4, cantidad: 1 },
+            { productoId: 5, cantidad: 1 }
+            ]
+            },
+            {
+            id: 104,
+            cliente: "Diego",
+            tipoCliente: "regular",
+            zona: "A",
+            items: [
+            { productoId: 1, cantidad: 1 },
+            { productoId: 2, cantidad: 2 }
+            ]
+            },
+            {
+            id: 105,
+            cliente: "Elena",
+            tipoCliente: "estudiante",
+            zona: "B",
+            items: [
+            { productoId: 3, cantidad: 1 },
+            { productoId: 4, cantidad: 3 }
+            ]
+            },
+            {
+            id: 106,
+            cliente: "Fabian",
+            tipoCliente: "frecuente",
+            zona: "C",
+            items: [
+            { productoId: 1, cantidad: 10 },
+            { productoId: 5, cantidad: 12 }
+            ]
+            },
+            {
+            id: 107,
+            cliente: "Pedro",
+            tipoCliente: "frecuente",
+            zona: "C",
+            items: [
+            { productoId: 5, cantidad: 10 }
+            ]
+            }
+            ];
+
+
+
+            function buscarProducto(id){
+                let res
+                res = productos.filter((elem) => id == elem.id)[0];
+                
+                if (res == undefined) {res = null}
+                return res;
+            }
+
+
+            function calcularSubtotal(pedido){
+                let data = pedidos.filter((e) => e.id == pedido)[0]
+                let res = 0;
+                let precios = [];
+                if (data != undefined){
+                    let items = data.items
+                    precios = items.map(i => {
+                        return buscarProducto(i.productoId).precio
+                    })
+                    res = items.reduce((acc, item, i) => acc + (item.cantidad * precios[i]), 0)
+                }
+                return res;
+            }
+
+            function calcularDescuento(pedido){
+                let data = pedidos.filter((e) => e.id == pedido)[0];
+                let resultado = {
+                    subtotal: 0,
+                    porcentajeDescuento: 0,
+                    montoDescuento: 0,
+                    totalFinal: 0
+                };
+                if (data != undefined){
+                    let subtotal = calcularSubtotal(pedido);
+                    let porcentaje = 0;
+                    if (data.tipoCliente == "estudiante") {
+                        porcentaje = 10
+                    }
+                    else if (data.tipoCliente == "frecuente") {
+                        porcentaje = 7
+                    }
+                    if (subtotal >= 120) {
+                        porcentaje = porcentaje + 3
+                    }
+                    if (porcentaje > 15) {
+                        porcentaje = 15
+                    }
+                    let monto = subtotal * porcentaje / 100;
+                    resultado = {
+                        subtotal: subtotal,
+                        porcentajeDescuento: porcentaje,
+                        montoDescuento: monto,
+                        totalFinal: subtotal - monto
+                    };
+                }
+                return resultado;
+            }
+
+            function calcularEnvio(pedido, totalAntesEnvio){
+                let data = pedidos.filter((e) => e.id == pedido)[0];
+                let costosZona = { A: 5, B: 8, C: 12 };
+                let envio = 0;
+                if (data != undefined && totalAntesEnvio < 120) {
+                    envio = costosZona[data.zona];
+                }
+                return envio;
+            }
+
+            function calcularPuntos(totalFinal){
+                return Math.floor(totalFinal / 10);
+            }
+
+            function obtenerNivel(puntos){
+                let nivel = "Bronce";
+                if (puntos >= 30) {nivel = "Oro"}
+                else if (puntos >= 20) {nivel = "Plata"}
+                return nivel;
+            }
+
+            function generarReporte(id){
+                    let p = pedidos.filter(b => b.id == id)[0];
+                    let d = calcularDescuento(p.id);
+                    let envio = calcularEnvio(p.id, d.totalFinal);
+                    let puntos = calcularPuntos(d.totalFinal);
+                    let reporte = {
+                        pedido: p.id,
+                        cliente: p.cliente,
+                        tipoCliente: p.tipoCliente,
+                        zona: p.zona,
+                        subtotal: d.subtotal,
+                        porcentajeDescuento: d.porcentajeDescuento,
+                        montoDescuento: d.montoDescuento,
+                        totalAntesEnvio: d.totalFinal,
+                        envio: envio,
+                        totalAPagar: d.totalFinal + envio,
+                        puntos: puntos,
+                        nivel: obtenerNivel(puntos)
+                    };
+                console.log(reporte);
+                return reporte;
+            }
+
+            console.log(buscarProducto(3));
+            console.log(buscarProducto(99));
+            console.log(calcularSubtotal(103));
+            console.log(calcularEnvio(107, calcularDescuento(107).totalFinal));
+            generarReporte(106);
+
+            pedidos.map(i => generarReporte(i.id))
+             
+            class ResumenCliente{
+                constructor(cliente){ 
+                    this.cliente = cliente;
+                    this.pedidos = 0;
+                    this.totalGastado = 0;
+                    this.puntos = 0;
+                }
+
+                agregarPedido(total,puntos){
+                    this.pedidos++
+                    this.totalGastado += total
+                    this.puntos += puntos
+                }
+            }
+
+            let clientes = pedidos.map(elem => {
+                let a = generarReporte(elem.id)
+                let x = new ResumenCliente(a.cliente);
+                x.agregarPedido(a.totalAPagar, a.puntos);
+                return x
+            })
+            console.log(clientes);
+            
+            
+        </script>
+        <!-- EL ESTUDIANTE TRABAJA AQUÍ -->
+    </body>
+</html>
