@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+ <meta charset="UTF-8">
+ <title>Evaluación JavaScript</title>
+</head>
+<body>
+ <h1>Evaluación de Contenido Avanzado</h1>
+ <p>Revisa el resultado en la consola del navegador.</p>
+ <script>
+ const productos = [
+ { id: 1, nombre: "Hamburguesa", precio: 28, stock: 8 },
+ { id: 2, nombre: "Pizza personal", precio: 32, stock: 6 },
+ { id: 3, nombre: "Ensalada", precio: 24, stock: 7 },
+ { id: 4, nombre: "Refresco", precio: 10, stock: 15 },
+ { id: 5, nombre: "Cafe", precio: 12, stock: 12 }
+ ];
+ const pedidos = [
+ {
+ id: 101,
+ cliente: "Ana",
+ tipoCliente: "regular",
+ zona: "A",
+ items: [
+ { productoId: 1, cantidad: 2 },
+ { productoId: 4, cantidad: 2 }
+ ]
+ },
+ {
+ id: 102,
+ cliente: "Bruno",
+ tipoCliente: "estudiante",
+ zona: "B",
+ items: [
+ { productoId: 2, cantidad: 1 },
+ { productoId: 5, cantidad: 1 }
+ ]
+ },
+ {
+ id: 103,
+ cliente: "Carla",
+ tipoCliente: "frecuente",
+ zona: "C",
+ items: [
+ { productoId: 3, cantidad: 2 },
+ { productoId: 4, cantidad: 1 },
+ { productoId: 5, cantidad: 1 }
+ ]
+ },
+ {
+ id: 104,
+ cliente: "Diego",
+ tipoCliente: "regular",
+ zona: "A",
+ items: [
+ { productoId: 1, cantidad: 1 },
+ { productoId: 2, cantidad: 2 }
+ ]
+ },
+ {
+ id: 105,
+ cliente: "Elena",
+ tipoCliente: "estudiante",
+ zona: "B",
+ items: [
+ { productoId: 3, cantidad: 1 },
+ { productoId: 4, cantidad: 3 }
+ ]
+ },
+{
+ id: 106,
+ cliente: "Fabian",
+ tipoCliente: "frecuente",
+ zona: "C",
+ items: [
+ { productoId: 1, cantidad: 3 },
+ { productoId: 5, cantidad: 2 }
+ ]
+ }
+ ];
+ </script>
+<script>
+    // Buscar Producto
+function buscarProducto(id) {
+    return productos.find(function(producto) {
+        return producto.id === id;
+    }) || null;
+}
+    // Calcular Subtotal de un pedido
+function calcularSubtotal(pedido) {
+
+    let subtotal = 0;
+
+    pedido.items.forEach(function(item) {
+
+        const producto = buscarProducto(item.productoId);
+
+        if (producto !== null) {
+            subtotal += producto.precio * item.cantidad;
+        }
+
+    });
+
+    return subtotal;
+}
+// Cacular Descuento
+function calcularDescuento(pedido) {
+
+    const subtotal = calcularSubtotal(pedido);
+
+    let porcentaje = 0;
+
+    if (pedido.tipoCliente === "Cliente estudiante") {
+        porcentaje = 10;
+    } 
+    else if (pedido.tipoCliente === " CLiente Cliente frecuente") {
+        porcentaje = 7;
+    } 
+    else if (pedido.tipoCliente === "regular") {
+        porcentaje = 0;
+    }
+// Cunado el el subtotal es mas de 120 se el aumenta un 3 porceinto mas
+    if (subtotal >= 120) {
+        porcentaje += 3;
+    }
+// y se calculal 15%  el descuento
+    if (porcentaje > 15) {
+        porcentaje = 15;
+    }
+
+    const montoDescuento = subtotal * porcentaje / 100;
+
+    const totalFinal = subtotal - montoDescuento;
+
+    return {
+        subtotal: subtotal,
+        porcentaje: porcentaje,
+        montoDescuento: montoDescuento,
+        totalFinal: totalFinal
+    };
+}
+//Calcular envio
+function calcularEnvio(pedido, totalAntesEnvio) {
+// si llega a mas de 120, el envio sera gratis
+    if (totalAntesEnvio >= 120){
+        return 0;
+    }
+    if (pedido,zona === "A") {
+        return 5;
+    }
+    else if (pedido,zona === "B") {
+        return 8;
+    }
+    else if (pedido,zona === "C") {
+        return 12;
+    }
+    return 0;
+}
+// Resumen Cliente 
+class ResumenCliente {
+    constructor() {
+        this.pedidos = 0;
+        this.totalGastado = 0;
+        this.puntos = 0
+    }
+    agregarPedido(total, puntos) {
+        this.pedidos++;
+        this.totalGastado += total;
+        this.puntos += puntos;
+    }
+}
+// Determinar rango
+function obtenerNivel(puntos) {
+
+    if (puntos >= 30) {
+        return "Oro";
+    } 
+    else if (puntos >= 20) {
+        return "Plata";
+    } 
+    else {
+        return "Bronce";
+    }
+
+}
+// Informe
+ let totalVentasAntesEnvio = 0;
+ let totalEnvios = 0;
+ let totalGeneral = 0;
+
+//  guardar un resumen por cliente
+const resumenClientes = {};
+// recorrer pedido
+pedidos.forEach(function(pedido) {
+
+    // Se calcula el descuento
+    const resultadoDescuento = calcularDescuento(pedido);
+
+    const subtotal = resultadoDescuento.subtotal;
+    const porcentajeDescuento = resultadoDescuento.porcentaje;
+    const montoDescuento = resultadoDescuento.montoDescuento;
+    const totalFinal = resultadoDescuento.totalFinal;
+
+    // Calcular envío
+    const envio = calcularEnvio(pedido, totalFinal);
+
+    // el total que pagara el cliente
+    const totalPagar = totalFinal + envio;
+
+    // se calculan los puntos
+    const puntos = Math.floor(totalFinal / 10);
+
+    // y su rango
+    const nivel = obtenerNivel(puntos);
+
+    // se calcularan los totales
+   
+    totalVentasAntesEnvio += totalFinal;
+    totalEnvios += envio;
+    totalGeneral += totalPagar;
+
+    // resumen del cliente
+    
+    if (!resumenClientes[pedido.cliente]) {
+        resumenClientes[pedido.cliente] = new ResumenCliente();
+    }
+
+    resumenClientes[pedido.cliente].agregarPedido(
+        totalFinal,
+        puntos
+    );
+
+
+    // Se mostraran los pedidos
+    
+    console.log("------------------------------------------");
+    console.log("Pedido " + pedido.id + " – " + pedido.cliente);
+    console.log(
+        "Subtotal: Bs " + subtotal.toFixed(2) +
+        " Descuento: " + porcentajeDescuento +
+        "% = Bs " + montoDescuento.toFixed(2)
+    );
+
+    console.log(
+        "Total: Bs " + totalFinal.toFixed(2)
+    );
+
+    console.log(
+        "Envío zona " + pedido.zona +
+        ": Bs " + envio.toFixed(2)
+    );
+
+    console.log(
+        "A pagar: Bs " + totalPagar.toFixed(2)
+    );
+
+    console.log(
+        "Puntos: " + puntos
+    );
+
+    console.log(
+        "Nivel: " + nivel
+    );
+
+});
+
+// Se moostraran los generales totales
+
+console.log("");
+console.log("------------------------------------------");
+console.log("TOTALES GENERALES");
+console.log("-----------------------------------------=");
+
+console.log(
+    "Ventas antes del envío: Bs " +
+    totalVentasAntesEnvio.toFixed(2)
+);
+
+console.log(
+    "Recaudación por envíos: Bs " +
+    totalEnvios.toFixed(2)
+);
+
+console.log(
+    "Total General: Bs " +
+    totalGeneral.toFixed(2)
+);
+
+console.log("");
+console.log("------------------------------------------");
+console.log("REPORTE POR CLIENTE");
+console.log("------------------------------------------");
+
+Object.keys(resumenClientes).forEach(function(cliente) {
+
+    const resumen = resumenClientes[cliente];
+
+    console.log("");
+    console.log("Cliente – " + cliente);
+    console.log("Pedidos: " + resumen.pedidos);
+    console.log(
+        "Nivel: " + obtenerNivel(resumen.puntos)
+    );
+    console.log(
+        "Gastado: Bs " + resumen.totalGastado.toFixed(2)
+    );
+    console.log(
+        "Puntos: " + resumen.puntos
+    );
+
+});
+
+// se mostraran las pruebas solicitadas
+console.log("");
+console.log("------------------------------------------");
+console.log("PRUEBAS");
+console.log("------------------------------------------");
+
+// Prueba 1
+console.log("buscarProducto(3):");
+console.log(buscarProducto(3));
+
+// Prueba 2
+console.log("buscarProducto(99):");
+console.log(buscarProducto(99));
+
+// Prueba 3 
+const pedido106 = pedidos.find(function(pedido) {
+    return pedido.id === 106;
+});
+
+console.log("Pedido 106:");
+console.log(calcularDescuento(pedido106));
+
+// Prueba 4 
+console.log(
+    "Envío para Bs 120:",
+    calcularEnvio(pedidos[0], 120)
+);
+
+// Prueba 5 
+console.log(
+    "Nivel con 30 puntos:",
+    obtenerNivel(30)
+);
+</script>
+</body>
+</html>
+
