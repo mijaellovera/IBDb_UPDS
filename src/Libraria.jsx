@@ -11,67 +11,97 @@ const navLinks = [
 ]
 
 function Header({ buscar, onBuscar, onAdmin }) {
-  const [texto, setTexto] = useState(buscar)
-  return (
-    <header id="header-v1" className="navbar-wrapper inner-navbar-wrapper">
-      <div className="container">
-        <div className="row">
-          <nav className="navbar navbar-default">
-            <div className="row">
-              <div className="col-md-3">
-                <div className="navbar-header">
-                  <div className="navbar-brand">
-                    <h1><a href="/"><img src="/images/books-media/gird-view/book-media-grid-01.jpg" alt="LIBRARIA" style={{ maxHeight: 40 }} /></a></h1>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-9">
-                <div className="header-topbar hidden-sm hidden-xs">
-                  <div className="row">
-                    <div className="col-sm-6">
-                      <div className="topbar-info">
-                        <a href="tel:+61-3-8376-6284"><i className="fa fa-phone"></i>+61-3-8376-6284</a>
-                        <span>/</span>
-                        <a href="mailto:support@libraria.com"><i className="fa fa-envelope"></i>support@libraria.com</a>
-                      </div>
+    const [texto, setTexto] = useState(buscar)
+
+    const manejarBusqueda = (e) => {
+        e.preventDefault()
+
+        const termino = texto.trim()
+
+        if (termino) {
+            onBuscar(termino)
+        }
+    }
+
+    return (
+    <header className="header">
+        <div className="header-contenedor">
+
+            <div className="header-superior">
+
+                <a href="/" className="logo">
+                    <img
+                      src="/images/logo.png"
+                      alt="IBDb UPDS"
+                      className="logo-imagen"
+                    />
+                    <div>
+                        <strong>IBDb UPDS</strong>
+                        <small>Biblioteca Digital</small>
                     </div>
-                    <div className="col-sm-6">
-                      <div className="topbar-links">
-                        <a href="#" className="admin-toggle" onClick={(e) => { e.preventDefault(); onAdmin() }} style={{ marginRight: 12, fontWeight: 600 }}>Admin</a>
-                        <form className="header-search-form" onSubmit={(e) => { e.preventDefault(); onBuscar(texto) }}>
-                          <input type="text" placeholder="Buscar..." value={texto} onChange={(e) => setTexto(e.target.value)} />
-                          <button type="submit"><i className="fa fa-search"></i></button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
+                </a>
+
+                <div className="contacto">
+                    <span>☎ +591 00000000</span>
+                    <span>✉ support@IBDbUPDS.com</span>
                 </div>
-                <div className="navbar-collapse hidden-sm hidden-xs">
-                  <ul className="nav navbar-nav">
-                    {navLinks.map((link, i) => (
-                      <li key={i} className={i === 0 ? 'dropdown active' : 'dropdown'}>
-                        <a href={link.href}>{link.label}</a>
-                      </li>
+
+                <button
+                    type="button"
+                    className="admin"
+                    onClick={onAdmin}
+                >
+                    ADMIN
+                </button>
+
+            </div>
+
+            <div className="header-inferior">
+
+                <nav className="menu">
+                    {navLinks.map((link) => (
+                        <a
+                            key={link.label}
+                            href={link.href}
+                        >
+                            {link.label}
+                        </a>
                     ))}
-                  </ul>
-                </div>
-              </div>
+                </nav>
+
+                <form
+                    className="buscador"
+                    onSubmit={manejarBusqueda}
+                >
+                    <input
+                        type="search"
+                        placeholder="Buscar por título o autor..."
+                        value={texto}
+                        onChange={(e) => setTexto(e.target.value)}
+                    />
+
+                    <button type="submit">
+                        BUSCAR
+                    </button>
+                </form>
+
             </div>
-            <div className="mobile-menu hidden-lg hidden-md">
-              <a href="#mobile-menu"><i className="fa fa-navicon"></i></a>
-            </div>
-          </nav>
+
         </div>
-      </div>
     </header>
   )
 }
 
-function GridBookItem({ book }) {
+function GridBookItem({ book, onDetalle }) {
   return (
     <li>
       <figure>
-        <img src={book.img} alt={book.title} />
+        <img
+          src={book.img}
+          alt={book.title}
+          onClick={() => onDetalle(book)}
+          style={{ cursor: 'pointer' }}
+        />
         <figcaption>
           <p><strong>{book.title}</strong></p>
           <p><strong>Author:</strong> {book.author}</p>
@@ -91,11 +121,30 @@ function GridBookItem({ book }) {
             <ul>
               <li><a href="#"><i className="fa fa-heart"></i></a></li>
               <li><a href={book.enlace || '#'} target="_blank" rel="noreferrer"><i className="fa fa-book"></i></a></li>
-              <li><a href="#"><i className="fa fa-search"></i></a></li>
+              <li>
+                <a
+                  href="#detalle"
+                  title="Ver detalles"
+                  onClick={(e) => {
+                  e.preventDefault()
+                  onDetalle(book)
+                  }}
+                >
+                  <i className="fa fa-search"></i>
+                </a>
+              </li>
             </ul>
           </div>
           <header className="entry-header">
-            <h3 className="entry-title"><a href="#">{book.title}</a></h3>
+            <h3 className="entry-title">
+              <a
+                href="#detalle"
+                onClick={(e) => {
+                e.preventDefault()
+                onDetalle(book)
+                }}
+                >{book.title}</a>
+            </h3>
             <ul>
               <li><strong>Author:</strong> {book.author}</li>
               {book.isbn && <li><strong>ISBN:</strong> {book.isbn}</li>}
@@ -119,12 +168,13 @@ function GridBookItem({ book }) {
   )
 }
 
-function FullWidthBookItem({ book }) {
+function FullWidthBookItem({ book, onDetalle}) {
   return (
     <li>
       <div className={`book-list-icon ${book.color}`}></div>
       <figure>
-        <a href="#"><img src={book.img} alt={book.title} /></a>
+        <a href="#"><img src={book.img} alt={book.title} onClick={() => onDetalle(book)} 
+        style={{ cursor: 'pointer' }}/></a>
         <figcaption>
           <header>
             <h4><a href="#">{book.title}</a></h4>
@@ -145,6 +195,109 @@ function FullWidthBookItem({ book }) {
       </figure>
     </li>
   )
+}
+
+function BookDetail({ book, onVolver }) {
+    if (!book) return null
+
+    return (
+        <section className="detalle-libro">
+            <div className="container">
+
+                <button
+                    type="button"
+                    className="detalle-volver"
+                    onClick={onVolver}
+                >
+                    ← Volver al catálogo
+                </button>
+
+                <div className="detalle-contenido">
+
+                    <div className="detalle-portada">
+                        <img
+                            src={book.img}
+                            alt={book.title}
+                        />
+                    </div>
+
+                    <div className="detalle-informacion">
+
+                        <span className="detalle-etiqueta">
+                            DETALLE DEL LIBRO
+                        </span>
+
+                        <h2>{book.title}</h2>
+
+                        <p className="detalle-autor">
+                            {book.author}
+                        </p>
+
+                        <div className="detalle-datos">
+
+                            <p>
+                                <strong>Autor:</strong>{' '}
+                                {book.author || 'No disponible'}
+                            </p>
+
+                            <p>
+                                <strong>Año de publicación:</strong>{' '}
+                                {book.year || 'No disponible'}
+                            </p>
+
+                            <p>
+                                <strong>ISBN:</strong>{' '}
+                                {book.isbn || 'No disponible'}
+                            </p>
+
+                            <p>
+                                <strong>Rating:</strong>{' '}
+                                {book.rating
+                                    ? `${book.rating} / 5`
+                                    : 'Sin valoración'}
+                            </p>
+
+                            <p>
+                                <strong>Votos:</strong>{' '}
+                                {book.votos || 0}
+                            </p>
+
+                            <p>
+                                <strong>Categorías:</strong>{' '}
+                                {book.categorias?.length
+                                    ? book.categorias.join(', ')
+                                    : 'No disponible'}
+                            </p>
+
+                        </div>
+
+                        <div className="detalle-descripcion">
+                            <h3>Descripción</h3>
+
+                            <p>
+                                {book.descripcion ||
+                                    'No hay una descripción disponible para este libro.'}
+                            </p>
+                        </div>
+
+                        {book.enlace && (
+                            <a
+                                href={book.enlace}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="detalle-leer"
+                            >
+                                Leer libro
+                            </a>
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    )
 }
 
 function Footer() {
@@ -186,6 +339,7 @@ export default function Libraria() {
   const [orden, setOrden] = useState('default')
   const [buscar, setBuscar] = useState('')
   const [pagina, setPagina] = useState(1)
+  const [libroSeleccionado, setLibroSeleccionado] = useState(null)
   const [cargando, setCargando] = useState(true)
   const [panelAdmin, setPanelAdmin] = useState(false)
   const [fuente, setFuente] = useState('mysql')
@@ -217,8 +371,15 @@ export default function Libraria() {
 
       {panelAdmin && <Admin volver={() => setPanelAdmin(false)} />}
 
-      {!panelAdmin && (
-      <>
+      {!panelAdmin && (libroSeleccionado ? (
+
+    <BookDetail
+      book={libroSeleccionado}
+      onVolver={() => setLibroSeleccionado(null)}
+    />
+
+  ) : (
+    <>
       <section className="page-banner services-banner">
         <div className="container">
           <div className="banner-header">
@@ -287,7 +448,7 @@ export default function Libraria() {
                       <div className="books-gird">
                         <ul>
                           {libros.map((book) => (
-                            <GridBookItem key={book.id} book={book} />
+                            <GridBookItem key={book.id} book={book} onDetalle={setLibroSeleccionado} />
                           ))}
                         </ul>
                       </div>
@@ -337,6 +498,7 @@ export default function Libraria() {
 
       <Footer />
       </>
+      )
       )}
     </div>
   )
