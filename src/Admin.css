@@ -1,0 +1,143 @@
+.admin-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.admin-header h2 {
+  margin: 0;
+}
+
+.admin-volver {
+  padding: 8px 18px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.admin-tabs button {
+  padding: 10px 22px;
+  border: 1px solid #ddd;
+  background: #f5f5f5;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+}
+
+.admin-tabs button.activo {
+  background: #1a3c6e;
+  color: #fff;
+  border-color: #1a3c6e;
+}
+
+.admin-error {
+  background: #fdecea;
+  color: #b71c1c;
+  border: 1px solid #f5c6cb;
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.admin-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  background: #f8f8f8;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+
+.admin-form input {
+  padding: 9px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-form .admin-acciones {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-form button {
+  padding: 10px 20px;
+  border: none;
+  background: #1a3c6e;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-form button.secundario {
+  background: #999;
+}
+
+.admin-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-tabla th,
+.admin-tabla td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.admin-tabla th {
+  background: #f0f0f0;
+}
+
+.admin-tabla img {
+  width: 34px;
+  height: auto;
+  vertical-align: middle;
+}
+
+.admin-borrar {
+  color: #b71c1c;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-weight: 600;
+}
+
+.admin-editar {
+  color: #1a3c6e;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.admin-lista {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 4px;
+  border-bottom: 1px solid #eee;
+}
