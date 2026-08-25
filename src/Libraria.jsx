@@ -94,80 +94,68 @@ function Header({ buscar, onBuscar, onAdmin }) {
 
 function GridBookItem({ book, onDetalle }) {
   return (
-    <li>
-      <figure>
-        <img
-          src={book.img}
-          alt={book.title}
-          onClick={() => onDetalle(book)}
-          style={{ cursor: 'pointer' }}
-        />
-        <figcaption>
-          <p><strong>{book.title}</strong></p>
-          <p><strong>Author:</strong> {book.author}</p>
-        </figcaption>
-      </figure>
-      <div className={`book-list-icon ${book.color}`}></div>
-      <div className="single-book-box">
-        <div className="post-detail">
-          <div className="books-social-sharing">
-            <ul>
-              <li><a href="#"><i className="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i className="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i className="fa fa-rss"></i></a></li>
-            </ul>
-          </div>
-          <div className="optional-links">
-            <ul>
-              <li><a href="#"><i className="fa fa-heart"></i></a></li>
-              <li><a href={book.enlace || '#'} target="_blank" rel="noreferrer"><i className="fa fa-book"></i></a></li>
-              <li>
-                <a
-                  href="#detalle"
-                  title="Ver detalles"
-                  onClick={(e) => {
-                  e.preventDefault()
-                  onDetalle(book)
-                  }}
-                >
-                  <i className="fa fa-search"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <header className="entry-header">
-            <h3 className="entry-title">
-              <a
-                href="#detalle"
-                onClick={(e) => {
-                e.preventDefault()
-                onDetalle(book)
-                }}
-                >{book.title}</a>
+    <li className="book-grid-item">
+      <figure className="book-card">
+
+        <div className="book-cover">
+          <img
+            src={book.img}
+            alt={book.title}
+            onClick={() => onDetalle(book)}
+          />
+
+          <div className="book-overlay">
+            <h3 className="book-title">
+              {book.title}
             </h3>
-            <ul>
-              <li><strong>Author:</strong> {book.author}</li>
-              {book.isbn && <li><strong>ISBN:</strong> {book.isbn}</li>}
-              {book.year && <li><strong>Año:</strong> {book.year}</li>}
-              {book.rating && <li><strong>Rating:</strong> {book.rating} / 5 ({book.votos} votos)</li>}
-            </ul>
-          </header>
-          <div className="entry-content">
-            <p>{book.categorias?.length ? book.categorias.join(', ') : 'Clásico disponible para lectura online.'}</p>
-          </div>
-          <footer className="entry-footer">
-            {book.enlace && (
-              <a className="btn btn-primary" href={book.enlace} target="_blank" rel="noreferrer">
-                Leer en Archive.org
-              </a>
+
+            <p className="book-author">
+              <strong>Autor:</strong> {book.author}
+            </p>
+
+            {book.isbn && (
+              <p>
+                <strong>ISBN:</strong> {book.isbn}
+              </p>
             )}
-          </footer>
+
+            {book.year && (
+              <p>
+                <strong>Año:</strong> {book.year}
+              </p>
+            )}
+
+            {book.rating && (
+              <p>
+                <strong>Rating:</strong> {book.rating} / 5
+                {book.votos ? ` (${book.votos} votos)` : ''}
+              </p>
+            )}
+
+            <p className="book-categorias">
+              <strong>Categorías:</strong>{" "}
+              {book.categorias?.length
+                ? book.categorias.join(", ")
+                : "Clásico disponible para lectura online."}
+            </p>
+
+            <button
+              type="button"
+              className="btn-ver-detalle"
+              onClick={(e) => {
+                e.stopPropagation()
+                onDetalle(book)
+              }}
+            >
+              VER DETALLE
+            </button>
+          </div>
         </div>
-      </div>
+
+      </figure>
     </li>
   )
 }
-
 function FullWidthBookItem({ book, onDetalle}) {
   return (
     <li>
@@ -333,7 +321,7 @@ function Footer() {
 }
 
 export default function Libraria() {
-  const [view, setView] = useState('grid')
+  const [view] = useState('grid')
   const [libros, setLibros] = useState([])
   const [total, setTotal] = useState(0)
   const [orden, setOrden] = useState('default')
@@ -422,15 +410,7 @@ export default function Libraria() {
                           </div>
                         </div>
                         <div className="col-md-3 col-sm-3 pull-right">
-                          <div className="filter-toggle">
-                            <a href="#" className={view === 'grid' ? 'active' : ''} onClick={(e) => { e.preventDefault(); setView('grid'); setPagina(1) }}>
-                              <i className="glyphicon glyphicon-th-large"></i>
-                            </a>
-                            <a href="#" className={view === 'full' ? 'active' : ''} onClick={(e) => { e.preventDefault(); setView('full'); setPagina(1) }}>
-                              <i className="glyphicon glyphicon-th-list"></i>
-                            </a>
-                          </div>
-                        </div>
+                      </div> 
                       </div>
                     </div>
 

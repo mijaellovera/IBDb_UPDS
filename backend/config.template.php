@@ -4,7 +4,7 @@ $DB = [
     'host'    => '127.0.0.1',
     'nombre'  => 'biblioteca_openlibrary',
     'usuario' => 'root',
-    'clave'   => 'TU_CLAVE_MYSQL',
+    'clave'   => 'root',
 ];
 
 function db(): PDO

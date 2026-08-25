@@ -321,3 +321,166 @@
         gap: 20px;
     }
 }
+/* ==========================================
+   LIBROS - TARJETAS SIMÉTRICAS
+   ========================================== */
+
+.books-gird > ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 0;
+}
+
+.books-gird > ul > li {
+    width: 25%;
+    padding: 0 15px;
+    margin-bottom: 30px;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+/* Tarjeta completa */
+.book-grid-item {
+    list-style: none;
+}
+
+/* Contenedor de la portada */
+.book-card {
+    margin: 0;
+    width: 100%;
+}
+
+/* Todas las portadas tienen exactamente el mismo tamaño */
+.book-cover {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    overflow: hidden;
+    background: #eeeeee;
+}
+
+/* Imagen */
+.book-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Información inicialmente oculta */
+.book-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    padding: 18px 15px;
+
+    background: rgba(0, 0, 0, 0.88);
+    color: #ffffff;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(100%);
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease,
+        transform 0.25s ease;
+
+    box-sizing: border-box;
+}
+
+/* La información aparece SOLO al pasar el mouse */
+.book-card:hover .book-overlay {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* No modifica el tamaño de la tarjeta */
+.book-overlay h3 {
+    margin: 0 0 8px;
+    color: #ffffff;
+    font-size: 17px;
+    line-height: 1.3;
+}
+
+.book-overlay p {
+    margin: 4px 0;
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Botón */
+.book-overlay .btn-ver-detalle {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 9px 15px;
+
+    border: none;
+    background: #ff7236;
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.book-overlay .btn-ver-detalle:hover {
+    background: #e84500;
+}
+
+/* Enlace Archive */
+.book-overlay .btn-primary {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* ==========================================
+   TABLET
+   ========================================== */
+
+@media (max-width: 991px) {
+
+    .books-gird > ul > li {
+        width: 33.3333%;
+    }
+
+    .book-cover {
+        height: 340px;
+    }
+}
+
+/* ==========================================
+   MÓVIL
+   ========================================== */
+
+@media (max-width: 767px) {
+
+    .books-gird > ul > li {
+        width: 50%;
+    }
+
+    .book-cover {
+        height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .books-gird > ul > li {
+        width: 100%;
+    }
+
+    .book-cover {
+        height: 360px;
+    }
+}
