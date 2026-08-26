@@ -142,10 +142,12 @@
 }
 
 .logo-imagen {
-    width: 120px;
-    height: 87px;
+    width: 180px;
+    height: 110px;
     object-fit: contain;
     display: block;
+    border-radius: 50%/50%;
+    background-color: #fff;
 }
 
 .logo div {
@@ -470,17 +472,17 @@
     }
 
     .book-cover {
-        height: 300px;
+        height: 480px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
 
     .books-gird > ul > li {
         width: 100%;
     }
 
     .book-cover {
-        height: 360px;
+        height: 480px;
     }
 }

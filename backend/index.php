@@ -232,6 +232,14 @@ function crearLibro(): void
     $enlace  = trim((string)($datos['enlace_lectura'] ?? '')) ?: null;
     $descripcion = trim((string)($datos['descripcion'] ?? '')) ?: null;
 
+    $imagen = null;
+    if (!empty($datos['imagen'])) {
+        $decoded = base64_decode($datos['imagen'], true);
+        if ($decoded !== false && strlen($decoded) > 100) {
+            $imagen = $decoded;
+        }
+    }
+
     $pdo = db();
     $pdo->beginTransaction();
     try {
@@ -240,10 +248,10 @@ function crearLibro(): void
 
         $stmt = $pdo->prepare(
             "INSERT INTO libro (ol_work_key, titulo, descripcion, anio_primer_publicacion,
-             portada_url, enlace_lectura, rating_promedio)
-             VALUES (?, ?, ?, ?, ?, ?, ?)"
+             portada_url, imagen, enlace_lectura, rating_promedio)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
         );
-        $stmt->execute([$clave, $titulo, $descripcion, $anio, $portada, $enlace, $rating]);
+        $stmt->execute([$clave, $titulo, $descripcion, $anio, $portada, $imagen, $enlace, $rating]);
         $libroId = (int)$pdo->lastInsertId();
 
         foreach ((array)($datos['autores'] ?? []) as $nombreAutor) {
@@ -282,6 +290,7 @@ function actualizarLibro(int $id): void
         'descripcion'             => 's',
         'anio_primer_publicacion' => 'i',
         'portada_url'             => 's',
+        'imagen'                  => 'b',
         'enlace_lectura'          => 's',
         'rating_promedio'         => 'f',
     ];
@@ -294,7 +303,14 @@ function actualizarLibro(int $id): void
             continue;
         }
         $valor = $datos[$campo];
-        if ($tipo === 'i') {
+        if ($tipo === 'b') {
+            $valor = (!empty($valor)) ? base64_decode($valor, true) : null;
+            if ($valor !== false && strlen($valor) > 100) {
+                $campos[]  = "{$campo} = ?";
+                $valores[] = $valor;
+            }
+            continue;
+        } elseif ($tipo === 'i') {
             $valor = ($valor === null || $valor === '') ? null : max(0, min(65535, (int)$valor));
         } elseif ($tipo === 'f') {
             $valor = ($valor === null || $valor === '') ? null : round((float)$valor, 2);
@@ -325,6 +341,31 @@ function eliminarLibro(int $id): void
     db()->prepare("DELETE FROM libro WHERE id = ?")->execute([$id]);
     http_response_code(204);
     exit;
+}
+
+function servirPortada(int $id): void
+{
+    $stmt = db()->prepare("SELECT imagen, portada_url FROM libro WHERE id = ?");
+    $stmt->execute([$id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row) {
+        responder(['error' => 'Libro no encontrado'], 404);
+    }
+
+    if ($row['imagen'] !== null) {
+        header('Content-Type: image/jpeg');
+        header('Cache-Control: public, max-age=2592000');
+        echo $row['imagen'];
+        exit;
+    }
+
+    if ($row['portada_url']) {
+        header('Location: ' . $row['portada_url'], true, 302);
+        exit;
+    }
+
+    responder(['error' => 'Portada no disponible'], 404);
 }
 
 // ---------------------------------------------------------------- AUTORES
@@ -537,6 +578,10 @@ $segmentos = $ruta === '' ? [] : explode('/', $ruta);
 try {
     switch ($segmentos[0] ?? '') {
         case 'libros':
+            if (($segmentos[2] ?? '') === 'portada') {
+                $metodo === 'GET' ? servirPortada(idDeRuta($segmentos)) : responder(['error' => 'Método no permitido'], 405);
+                break;
+            }
             match (true) {
                 $metodo === 'GET'    => listarLibros(),
                 $metodo === 'POST'   => crearLibro(),

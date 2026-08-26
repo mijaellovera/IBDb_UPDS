@@ -22,6 +22,7 @@
   background: #fff;
   cursor: pointer;
   border-radius: 4px;
+  color: #3e3e3e;
 }
 
 .admin-tabs {
@@ -36,6 +37,7 @@
   background: #f5f5f5;
   cursor: pointer;
   border-radius: 4px 4px 0 0;
+  color: #3e3e3e;
 }
 
 .admin-tabs button.activo {
