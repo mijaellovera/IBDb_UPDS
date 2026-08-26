@@ -93,4 +93,66 @@ php backend/extraer.php     # Open Library -> backend/datos/openlibrary.json
 php backend/migrar.php      # JSON -> SQL (acepta otro archivo JSON como argumento)
 ```
 
-Mas detalles tecnicos en `backend/README.md` 
+Mas detalles tecnicos en `backend/README.md` y la guia educativa completa en
+`../APIINvestigacion/GuiaAPI.md`.
+
+---
+
+## Lanzar en Windows con XAMPP + MySQL Workbench
+
+El proyecto es 100% compatible. Solo cambian las rutas y el arranque:
+
+### 1. Iniciar MySQL
+
+Abre **XAMPP Control Panel** y presiona *Start* en **MySQL** (queda escuchando
+en 127.0.0.1:3306). No necesitas Apache ni FileZilla.
+
+> Por defecto XAMPP trae el usuario `root` SIN contrasena.
+
+### 2. Configuracion local
+
+En una consola (cmd o PowerShell), dentro de la carpeta del proyecto:
+
+```bat
+copy backend\config.template.php backend\config.php
+```
+
+Edita `backend\config.php`. Con XAMPP recien instalado queda asi:
+
+```php
+$DB = [
+    'host'    => '127.0.0.1',
+    'nombre'  => 'biblioteca_openlibrary',
+    'usuario' => 'root',
+    'clave'   => '',        // XAMPP por defecto: vacia. Si le pusiste clave, ponla aqui.
+];
+```
+
+### 3. Importar la base de datos
+
+**Opcion A - MySQL Workbench:** menu *Server > Data Import > Import from Self-Contained File*,
+selecciona `backend\sql\biblioteca_openlibrary.sql`, marca *Dump Structure and Data*
+y presiona *Start Import*. La BD se crea sola.
+
+**Opcion B - consola:**
+
+```bat
+C:\xampp\mysql\bin\mysql.exe -u root < backend\sql\biblioteca_openlibrary.sql
+```
+
+### 4. Servidores
+
+```bat
+:: Terminal 1 - API REST con el PHP que incluye XAMPP
+cd IBDb_UPDS
+C:\xampp\php\php.exe -S 127.0.0.1:8000 -t backend backend/index.php
+
+:: Terminal 2 - Frontend (Node.js normal)
+npm run dev
+```
+
+Si agregas `C:\xampp\php` al PATH puedes escribir solo `php -S ...`.
+
+Abrir **http://localhost:5173** — todo lo demas funciona identico que en Linux
+(busqueda hibrida, panel Admin, paginacion). El unico requisito extra es tener
+Node.js instalado (https://nodejs.org).

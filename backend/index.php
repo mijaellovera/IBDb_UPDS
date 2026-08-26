@@ -89,6 +89,7 @@ function categoriaIdPorNombre(PDO $pdo, string $nombre): ?int
 function listarLibros(): void
 {
     $buscar   = trim($_GET['buscar'] ?? '');
+    $categoria = trim($_GET['categoria'] ?? '');
     $orden    = $_GET['orden'] ?? 'default';
     $pagina   = max(1, (int)($_GET['pagina'] ?? 1));
     $porPagina = min(50, max(1, (int)($_GET['porPagina'] ?? 12)));
@@ -106,6 +107,11 @@ function listarLibros(): void
     if ($buscar !== '') {
         $where  = 'WHERE titulo LIKE ? OR autores LIKE ?';
         $params = ["%{$buscar}%", "%{$buscar}%"];
+    }
+    if ($categoria !== '') {
+        $where .= ($where ? ' AND ' : 'WHERE ')
+                . 'id IN (SELECT lc.libro_id FROM libro_categoria lc JOIN categoria c ON c.id = lc.categoria_id WHERE c.slug = ?)';
+        $params[] = $categoria;
     }
 
     $stmt = db()->prepare("SELECT COUNT(*) FROM vw_libraria_libros {$where}");

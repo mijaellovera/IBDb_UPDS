@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react'
 import './Libraria.css'
 import { obtenerLibros } from './librariaApi'
 import Admin from './Admin'
+import Autores from './Autores'
+import Categorias from './Categorias'
 
 const navLinks = [
-  { label: 'Autores', href: '#autores' },
-  { label: 'Categorias', href: '#categorias' },
-  { label: 'Novedades', href: '#novedades' },
-  { label: 'Destacados', href: '#destacados' },
+  { label: 'Home', vista: 'catalogo' },
+  { label: 'Autores', vista: 'autores' },
+  { label: 'Categorias', vista: 'categorias' },
+  { label: 'Novedades', vista: 'novedades' },
+  { label: 'Destacados', vista: 'destacados' },
 ]
 
-function Header({ buscar, onBuscar, onAdmin }) {
+function Header({ buscar, onBuscar, onAdmin, onNav }) {
     const [texto, setTexto] = useState(buscar)
 
     const manejarBusqueda = (e) => {
@@ -62,7 +65,8 @@ function Header({ buscar, onBuscar, onAdmin }) {
                     {navLinks.map((link) => (
                         <a
                             key={link.label}
-                            href={link.href}
+                            href="#"
+                            onClick={(e) => { e.preventDefault(); onNav(link.vista) }}
                         >
                             {link.label}
                         </a>
@@ -329,7 +333,8 @@ export default function Libraria() {
   const [pagina, setPagina] = useState(1)
   const [libroSeleccionado, setLibroSeleccionado] = useState(null)
   const [cargando, setCargando] = useState(true)
-  const [panelAdmin, setPanelAdmin] = useState(false)
+  const [vista, setVista] = useState('catalogo')
+  const [categoria, setCategoria] = useState('')
   const [fuente, setFuente] = useState('mysql')
   const porPagina = view === 'grid' ? 12 : 9
   const totalPaginas = Math.max(1, Math.ceil(total / porPagina))
@@ -337,7 +342,7 @@ export default function Libraria() {
   useEffect(() => {
     let activo = true
     setCargando(true)
-    obtenerLibros({ buscar, orden, pagina, porPagina })
+    obtenerLibros({ buscar, categoria, orden, pagina, porPagina })
       .then(({ total, libros, fuente }) => {
         if (!activo) return
         setLibros(libros)
@@ -347,19 +352,32 @@ export default function Libraria() {
       .catch(console.error)
       .finally(() => activo && setCargando(false))
     return () => { activo = false }
-  }, [buscar, orden, pagina, porPagina])
+  }, [buscar, categoria, orden, pagina, porPagina])
 
   return (
     <div>
       <Header
         buscar={buscar}
-        onBuscar={(t) => { setBuscar(t); setPagina(1) }}
-        onAdmin={() => setPanelAdmin(true)}
+        onBuscar={(t) => { setBuscar(t); setCategoria(''); setPagina(1) }}
+        onAdmin={() => setVista('admin')}
+        onNav={(v) => { setVista(v); if (v === 'catalogo') { setBuscar(''); setCategoria(''); setPagina(1) } }}
       />
 
-      {panelAdmin && <Admin volver={() => setPanelAdmin(false)} />}
+      {vista === 'admin' && <Admin volver={() => setVista('catalogo')} />}
+      {vista === 'autores' && (
+        <Autores
+          onVolver={() => setVista('catalogo')}
+          onVerObras={(nombre) => { setBuscar(nombre); setPagina(1); setVista('catalogo') }}
+        />
+      )}
+      {vista === 'categorias' && (
+        <Categorias
+          onVolver={() => setVista('catalogo')}
+          onVerLibros={(slug) => { setCategoria(slug); setPagina(1); setVista('catalogo') }}
+        />
+      )}
 
-      {!panelAdmin && (libroSeleccionado ? (
+      {vista === 'catalogo' && (libroSeleccionado ? (
 
     <BookDetail
       book={libroSeleccionado}
@@ -391,6 +409,21 @@ export default function Libraria() {
               <div className="container">
                 <div className="row">
                   <div className="col-md-12">
+                    {(buscar || categoria) && (
+                      <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <span style={{ fontSize: 14, color: '#555' }}>
+                          {buscar && <>Libros de: <strong>{buscar}</strong></>}
+                          {categoria && <>Categoría: <strong>{categoria.replace(/-/g, ' ')}</strong></>}
+                        </span>
+                        <button
+                          type="button"
+                          style={{ padding: '4px 12px', border: '1px solid #ccc', background: '#fff', cursor: 'pointer', borderRadius: 4, fontSize: 13 }}
+                          onClick={() => { setBuscar(''); setCategoria(''); setPagina(1) }}
+                        >
+                          ← Ver todos los libros
+                        </button>
+                      </div>
+                    )}
                     <div className="filter-options margin-list">
                       <div className="row">
                         <div className="col-md-4 col-sm-4">
