@@ -7,6 +7,19 @@ function slugificar(string $texto): string
     return trim((string)preg_replace('/[^a-z0-9]+/', '-', $texto), '-');
 }
 
+function descargarPortada(?string $url): ?string
+{
+    if ($url === null) {
+        return null;
+    }
+    $ctx = stream_context_create(['http' => ['timeout' => 10, 'user_agent' => 'IBDb-UPDS/1.0']]);
+    $datos = @file_get_contents($url, false, $ctx);
+    if ($datos === false || strlen($datos) < 100) {
+        return null;
+    }
+    return $datos;
+}
+
 function isbn13De(array $isbns): ?string
 {
     foreach ($isbns as $isbn) {
@@ -244,5 +257,26 @@ function migrarDocs(array $docs): array
         throw $e;
     }
 
+    $conteo['portadas_descargadas'] = descargarPortadasPendientes($pdo);
+
     return $conteo;
+}
+
+function descargarPortadasPendientes(PDO $pdo): int
+{
+    $stmt = $pdo->query("SELECT id, portada_url FROM libro WHERE imagen IS NULL AND portada_url IS NOT NULL");
+    $libros = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    $descargadas = 0;
+    $update = $pdo->prepare("UPDATE libro SET imagen = ? WHERE id = ?");
+
+    foreach ($libros as $id => $url) {
+        $blob = descargarPortada($url);
+        if ($blob !== null) {
+            $update->execute([$blob, $id]);
+            $descargadas++;
+        }
+    }
+
+    return $descargadas;
 }

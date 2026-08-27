@@ -2633,6 +2633,21 @@ output {
 .form-control::-webkit-input-placeholder {
   color: #999;
 }
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
 .form-control:-moz-placeholder {
   color: inherit;
   opacity: 1;
@@ -7028,7 +7043,7 @@ summary {
   color: #3e3e3e;
 }
 section {
-  padding: 100px 0;
+  padding: 50px 0;
 }
 @media (max-width: 991px) {
   section {
@@ -13605,7 +13620,7 @@ a:focus {
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: 400px;
+  min-height: 100px;
   position: relative;
   text-align: center;
 }
@@ -13650,8 +13665,8 @@ a:focus {
   background-image: url(images/page-banners/signin-banner.jpg);
 }
 .page-banner .banner-header {
+  padding: 0;
   display: block;
-  padding-top: 110px;
   vertical-align: middle;
   position: relative;
   z-index: 10;

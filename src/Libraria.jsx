@@ -40,13 +40,13 @@ function Header({ buscar, onBuscar, onAdmin, onNav }) {
                     />
                     <div>
                         <strong>IBDb UPDS</strong>
-                        <small>Biblioteca Digital</small>
+                        <p>Biblioteca Digital</p>
                     </div>
                 </a>
 
                 <div className="contacto">
-                    <span>☎ +591 00000000</span>
-                    <span>✉ support@IBDbUPDS.com</span>
+                    <p>☎ +591 00000000</p>
+                    <p>✉ support@IBDbUPDS.com</p>
                 </div>
 
                 <button
@@ -106,6 +106,7 @@ function GridBookItem({ book, onDetalle }) {
             src={book.img}
             alt={book.title}
             onClick={() => onDetalle(book)}
+            onError={(e) => { e.target.onerror = null; e.target.src = book.fallbackImg }}
           />
 
           <div className="book-overlay">
@@ -166,7 +167,7 @@ function FullWidthBookItem({ book, onDetalle}) {
       <div className={`book-list-icon ${book.color}`}></div>
       <figure>
         <a href="#"><img src={book.img} alt={book.title} onClick={() => onDetalle(book)} 
-        style={{ cursor: 'pointer' }}/></a>
+        style={{ cursor: 'pointer' }} onError={(e) => { e.target.onerror = null; e.target.src = book.fallbackImg }}/></a>
         <figcaption>
           <header>
             <h4><a href="#">{book.title}</a></h4>
@@ -196,6 +197,7 @@ function BookDetail({ book, onVolver }) {
         <section className="detalle-libro">
             <div className="container">
 
+                {/* BOTÓN PARA VOLVER */}
                 <button
                     type="button"
                     className="detalle-volver"
@@ -206,13 +208,9 @@ function BookDetail({ book, onVolver }) {
 
                 <div className="detalle-contenido">
 
-                    <div className="detalle-portada">
-                        <img
-                            src={book.img}
-                            alt={book.title}
-                        />
-                    </div>
-
+                    {/* =========================
+                        INFORMACIÓN - IZQUIERDA
+                    ========================== */}
                     <div className="detalle-informacion">
 
                         <span className="detalle-etiqueta">
@@ -222,9 +220,10 @@ function BookDetail({ book, onVolver }) {
                         <h2>{book.title}</h2>
 
                         <p className="detalle-autor">
-                            {book.author}
+                            {book.author || 'Autor desconocido'}
                         </p>
 
+                        {/* DATOS DEL LIBRO */}
                         <div className="detalle-datos">
 
                             <p>
@@ -263,15 +262,23 @@ function BookDetail({ book, onVolver }) {
 
                         </div>
 
+                        {/* =========================
+                            SINOPSIS
+                        ========================== */}
                         <div className="detalle-descripcion">
-                            <h3>Descripción</h3>
+
+                            <h3>Sinopsis</h3>
 
                             <p>
                                 {book.descripcion ||
-                                    'No hay una descripción disponible para este libro.'}
+                                    'No hay una sinopsis disponible para este libro.'}
                             </p>
+
                         </div>
 
+                        {/* =========================
+                            BOTÓN DE LECTURA
+                        ========================== */}
                         {book.enlace && (
                             <a
                                 href={book.enlace}
@@ -279,9 +286,25 @@ function BookDetail({ book, onVolver }) {
                                 rel="noreferrer"
                                 className="detalle-leer"
                             >
-                                Leer libro
+                                LEER EN ARCHIVE.ORG
                             </a>
                         )}
+
+                    </div>
+
+                    {/* =========================
+                        PORTADA - DERECHA
+                    ========================== */}
+                    <div className="detalle-portada">
+
+                        <img
+                            src={book.img}
+                            alt={book.title}
+                            onError={(e) => {
+                                e.target.onerror = null
+                                e.target.src = book.fallbackImg
+                            }}
+                        />
 
                     </div>
 
@@ -300,7 +323,7 @@ function Footer() {
           <div className="row">
             <div className="col-md-3 col-sm-6">
               <div className="footer-logo">
-                <img src="/images/books-media/gird-view/book-media-grid-01.jpg" alt="Logo" style={{ maxHeight: 50 }} />
+                <img alt="IBDb UPDS" class="logo-imagen" src="/images/logo.png"></img>
               </div>
             </div>
             <div className="col-md-6 col-sm-6">
@@ -425,7 +448,7 @@ export default function Libraria() {
                       </div>
                     )}
                     <div className="filter-options margin-list">
-                      <div className="row">
+                      <div className="row" style={{margin: "25px"}}>
                         <div className="col-md-4 col-sm-4">
                           <select name="orderby" value={orden} onChange={(e) => { setOrden(e.target.value); setPagina(1) }}>
                             <option value="default">Default sorting</option>
