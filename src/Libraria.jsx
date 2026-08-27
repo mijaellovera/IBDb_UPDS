@@ -44,11 +44,6 @@ function Header({ buscar, onBuscar, onAdmin, onNav }) {
                     </div>
                 </a>
 
-                <div className="contacto">
-                    <p>☎ +591 00000000</p>
-                    <p>✉ support@IBDbUPDS.com</p>
-                </div>
-
                 <button
                     type="button"
                     className="admin"
@@ -333,8 +328,18 @@ function Footer() {
               </div>
             </div>
             <div className="col-md-3 col-sm-12">
+              
+                <div className="footer-contacto">
+
+        <h3>Contacto</h3>
+
+        <p>☎ +591 00000000</p>
+
+        <p>✉ support@IBDbUPDS.com</p>
+
+    </div>
               <div className="footer-social">
-                <span className="social-icon"><i className="fa fa-facebook-f"></i></span>
+                <span className="social-icon"><i className="fa fa-facebook"></i></span>
                 <span className="social-icon"><i className="fa fa-twitter"></i></span>
                 <span className="social-icon"><i className="fa fa-instagram"></i></span>
                 <span className="social-icon"><i className="fa fa-youtube"></i></span>
@@ -503,8 +508,15 @@ export default function Libraria() {
                         <h2 className="screen-reader-text">Posts navigation</h2>
                         <div className="nav-links">
                           {pagina > 1 && (
-                            <a className="prev page-numbers" href="#" onClick={(e) => { e.preventDefault(); setPagina(pagina - 1) }}>
-                              <i className="fa fa-long-arrow-left"></i> Previous
+                           <a
+                              className="prev page-numbers"
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setPagina(pagina - 1)
+                              }}
+                            >
+                              <span className="pagination-arrow">←</span> Previous
                             </a>
                           )}
                           {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((n) =>
@@ -517,8 +529,15 @@ export default function Libraria() {
                             )
                           )}
                           {pagina < totalPaginas && (
-                            <a className="next page-numbers" href="#" onClick={(e) => { e.preventDefault(); setPagina(pagina + 1) }}>
-                              Next <i className="fa fa-long-arrow-right"></i>
+                            <a
+                              className="next page-numbers"
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setPagina(pagina + 1)
+                              }}
+                            >
+                              Next <span className="pagination-arrow">→</span>
                             </a>
                           )}
                         </div>

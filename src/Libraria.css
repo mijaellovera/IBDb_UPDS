@@ -327,22 +327,28 @@
    LIBROS - TARJETAS SIMÉTRICAS
    ========================================== */
 
+.books-gird {
+    width: 100% !important;
+}
+
 .books-gird > ul {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -15px;
-    margin-right: -15px;
-    padding: 0;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 30px 20px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
 }
 
-.books-gird > ul > li {
-    width: 25%;
-    padding: 0 15px;
-    margin-bottom: 30px;
-    list-style: none;
-    box-sizing: border-box;
+.books-gird > ul > li.book-grid-item {
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
 }
-
 /* Tarjeta completa */
 .book-grid-item {
     list-style: none;
@@ -528,7 +534,7 @@
 .detalle-contenido {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 380px;
-    gap: 70px;
+    gap: 35px;
     align-items: start;
 }
 
@@ -748,4 +754,124 @@
         height: 380px;
     }
 
+}
+/* =========================================================
+   CONTACTO Y REDES SOCIALES DEL FOOTER
+   ========================================================= */
+
+.footer-contacto {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.footer-contacto h3 {
+    color: #ffffff;
+    font-size: 20px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.footer-contacto p {
+    color: #cccccc;
+    margin: 6px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: auto;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 16px;
+    cursor: default;
+    transition: background 0.3s ease;
+}
+
+.social-icon:hover {
+    background: #ff7236;
+}
+
+.navigation.pagination {
+    position: relative;
+    width: 100%;
+}
+
+.navigation.pagination .nav-links {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 44px;
+}
+
+/* Los números de página permanecen centrados */
+.navigation.pagination .nav-links .page-numbers {
+    flex: 0 0 auto;
+}
+
+/* Previous queda fijo a la izquierda */
+.navigation.pagination .nav-links .prev {
+    position: absolute;
+    right: calc(50% + 190px);
+}
+
+/* Next queda fijo a la derecha */
+.navigation.pagination .nav-links .next {
+    position: absolute;
+    left: calc(50% + 190px);
+}
+
+/* =========================================
+   BOTONES PREVIOUS / NEXT
+========================================= */
+
+.navigation.pagination .prev.page-numbers,
+.navigation.pagination .next.page-numbers {
+    background-color: #f28c28;
+    color: #ffffff !important;
+    border: 1px solid #f28c28;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+/* Texto y flechas en blanco */
+.navigation.pagination .prev.page-numbers,
+.navigation.pagination .next.page-numbers,
+.navigation.pagination .pagination-arrow {
+    color: #ffffff !important;
+}
+
+/* Cuando pasamos el mouse */
+.navigation.pagination .prev.page-numbers:hover,
+.navigation.pagination .next.page-numbers:hover {
+    background-color: #d97706;
+    border-color: #d97706;
+    color: #ffffff !important;
+}
+
+/* Flechas */
+.pagination-arrow {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
 }
