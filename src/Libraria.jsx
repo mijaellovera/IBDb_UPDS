@@ -197,6 +197,7 @@ function BookDetail({ book, onVolver }) {
         <section className="detalle-libro">
             <div className="container">
 
+                {/* BOTÓN PARA VOLVER */}
                 <button
                     type="button"
                     className="detalle-volver"
@@ -207,14 +208,9 @@ function BookDetail({ book, onVolver }) {
 
                 <div className="detalle-contenido">
 
-                    <div className="detalle-portada">
-                        <img
-                            src={book.img}
-                            alt={book.title}
-                            onError={(e) => { e.target.onerror = null; e.target.src = book.fallbackImg }}
-                        />
-                    </div>
-
+                    {/* =========================
+                        INFORMACIÓN - IZQUIERDA
+                    ========================== */}
                     <div className="detalle-informacion">
 
                         <span className="detalle-etiqueta">
@@ -224,9 +220,10 @@ function BookDetail({ book, onVolver }) {
                         <h2>{book.title}</h2>
 
                         <p className="detalle-autor">
-                            {book.author}
+                            {book.author || 'Autor desconocido'}
                         </p>
 
+                        {/* DATOS DEL LIBRO */}
                         <div className="detalle-datos">
 
                             <p>
@@ -265,15 +262,23 @@ function BookDetail({ book, onVolver }) {
 
                         </div>
 
+                        {/* =========================
+                            SINOPSIS
+                        ========================== */}
                         <div className="detalle-descripcion">
-                            <h3>Descripción</h3>
+
+                            <h3>Sinopsis</h3>
 
                             <p>
                                 {book.descripcion ||
-                                    'No hay una descripción disponible para este libro.'}
+                                    'No hay una sinopsis disponible para este libro.'}
                             </p>
+
                         </div>
 
+                        {/* =========================
+                            BOTÓN DE LECTURA
+                        ========================== */}
                         {book.enlace && (
                             <a
                                 href={book.enlace}
@@ -281,9 +286,25 @@ function BookDetail({ book, onVolver }) {
                                 rel="noreferrer"
                                 className="detalle-leer"
                             >
-                                Leer libro
+                                LEER EN ARCHIVE.ORG
                             </a>
                         )}
+
+                    </div>
+
+                    {/* =========================
+                        PORTADA - DERECHA
+                    ========================== */}
+                    <div className="detalle-portada">
+
+                        <img
+                            src={book.img}
+                            alt={book.title}
+                            onError={(e) => {
+                                e.target.onerror = null
+                                e.target.src = book.fallbackImg
+                            }}
+                        />
 
                     </div>
 

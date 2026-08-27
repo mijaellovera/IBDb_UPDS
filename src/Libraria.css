@@ -486,3 +486,266 @@
         height: 480px;
     }
 }
+
+/* =========================================================
+   VISTA DETALLE DEL LIBRO
+   ========================================================= */
+
+.detalle-libro {
+    padding: 50px 0 70px;
+    background: #ffffff;
+}
+
+.detalle-libro .container {
+    max-width: 1170px;
+    margin: 0 auto;
+}
+
+/* Botón volver */
+.detalle-volver {
+    display: inline-block;
+    margin-bottom: 35px;
+    padding: 10px 18px;
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    color: #555555;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.detalle-volver:hover {
+    background: #ff7236;
+    border-color: #ff7236;
+    color: #ffffff;
+}
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   Información izquierda / portada derecha
+   ========================================================= */
+
+.detalle-contenido {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 70px;
+    align-items: start;
+}
+
+/* =========================================================
+   INFORMACIÓN
+   ========================================================= */
+
+.detalle-informacion {
+    min-width: 0;
+    padding-top: 5px;
+}
+
+.detalle-etiqueta {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #ff7236;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.detalle-informacion h2 {
+    margin: 0 0 10px;
+    color: #282828;
+    font-size: 38px;
+    line-height: 1.15;
+    font-weight: 700;
+}
+
+.detalle-autor {
+    margin: 0 0 30px;
+    color: #777777;
+    font-size: 19px;
+    font-style: italic;
+}
+
+/* =========================================================
+   DATOS DEL LIBRO
+   ========================================================= */
+
+.detalle-datos {
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+    padding: 18px 0;
+    margin-bottom: 30px;
+}
+
+.detalle-datos p {
+    margin: 9px 0;
+    color: #555555;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.detalle-datos strong {
+    display: inline-block;
+    min-width: 165px;
+    color: #282828;
+}
+
+/* =========================================================
+   SINOPSIS
+   ========================================================= */
+
+.detalle-descripcion {
+    margin-top: 25px;
+}
+
+.detalle-descripcion h3 {
+    margin: 0 0 15px;
+    color: #282828;
+    font-size: 22px;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.detalle-descripcion h3::after {
+    content: "";
+    display: block;
+    width: 45px;
+    height: 3px;
+    background: #ff7236;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.detalle-descripcion p {
+    margin: 0;
+    color: #666666;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+/* =========================================================
+   PORTADA - DERECHA
+   ========================================================= */
+
+.detalle-portada {
+    width: 100%;
+    text-align: center;
+}
+
+.detalle-portada img {
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    height: 520px;
+    margin: 0 auto;
+    object-fit: cover;
+    background: #eeeeee;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+/* =========================================================
+   BOTÓN LEER
+   ========================================================= */
+
+.detalle-leer {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 13px 24px;
+    background: #ff7236;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    transition: background 0.25s ease;
+}
+
+.detalle-leer:hover {
+    background: #e84500;
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 991px) {
+
+    .detalle-contenido {
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 40px;
+    }
+
+    .detalle-informacion h2 {
+        font-size: 32px;
+    }
+
+    .detalle-portada img {
+        height: 440px;
+    }
+
+}
+
+/* =========================================================
+   MÓVIL
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .detalle-libro {
+        padding: 30px 0 50px;
+    }
+
+    .detalle-contenido {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    /* En móvil la información queda primero */
+    .detalle-informacion {
+        order: 1;
+    }
+
+    .detalle-portada {
+        order: 2;
+    }
+
+    .detalle-informacion h2 {
+        font-size: 28px;
+    }
+
+    .detalle-portada img {
+        max-width: 300px;
+        height: 430px;
+    }
+
+}
+
+/* =========================================================
+   MÓVIL PEQUEÑO
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .detalle-informacion h2 {
+        font-size: 24px;
+    }
+
+    .detalle-datos strong {
+        display: block;
+        min-width: auto;
+        margin-bottom: 2px;
+    }
+
+    .detalle-descripcion p {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .detalle-portada img {
+        max-width: 260px;
+        height: 380px;
+    }
+
+}
