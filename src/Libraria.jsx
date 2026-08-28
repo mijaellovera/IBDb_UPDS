@@ -13,8 +13,9 @@ const navLinks = [
   { label: 'Destacados', vista: 'destacados' },
 ]
 
-function Header({ buscar, onBuscar, onAdmin, onNav }) {
+function Header({ buscar, onBuscar, onAdmin, onNav, vistaActual }) {
     const [texto, setTexto] = useState(buscar)
+    const [menuAbierto, setMenuAbierto] = useState(false)
 
     const manejarBusqueda = (e) => {
         e.preventDefault()
@@ -52,6 +53,17 @@ function Header({ buscar, onBuscar, onAdmin, onNav }) {
                     ADMIN
                 </button>
 
+           {/* BOTÓN HAMBURGUESA - SOLO MÓVIL */}
+                <button
+                  type="button"
+                  className="menu-hamburguesa"
+                  onClick={() => setMenuAbierto(!menuAbierto)}
+                  aria-label={menuAbierto ? 'Cerrar menú' : 'Abrir menú'}
+                  aria-expanded={menuAbierto}
+                >
+                  {menuAbierto ? '×' : '☰'}
+                </button>
+
             </div>
 
             <div className="header-inferior">
@@ -61,12 +73,35 @@ function Header({ buscar, onBuscar, onAdmin, onNav }) {
                         <a
                             key={link.label}
                             href="#"
+                            className={vistaActual === link.vista ? 'active' : ''}
                             onClick={(e) => { e.preventDefault(); onNav(link.vista) }}
                         >
                             {link.label}
                         </a>
                     ))}
                 </nav>
+             
+                        {/* MENÚ DESPLEGABLE MÓVIL */}
+                <div
+                  className={`menu-mobile-panel ${
+                  menuAbierto ? 'abierto' : ''
+                  }`}
+                >
+                  {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href="#"
+                    className={vistaActual === link.vista ? 'active' : ''}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onNav(link.vista)
+                      setMenuAbierto(false)
+                      }}
+                  >
+                  {link.label}
+                </a>
+              ))}
+            </div>
 
                 <form
                     className="buscador"
@@ -386,6 +421,7 @@ export default function Libraria() {
     <div>
       <Header
         buscar={buscar}
+        vistaActual={vista}
         onBuscar={(t) => { setBuscar(t); setCategoria(''); setPagina(1) }}
         onAdmin={() => setVista('admin')}
         onNav={(v) => { setVista(v); if (v === 'catalogo') { setBuscar(''); setCategoria(''); setPagina(1) } }}
