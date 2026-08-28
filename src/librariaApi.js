@@ -38,8 +38,12 @@ export async function obtenerLibros({ buscar = '', categoria = '', orden = 'defa
 }
 
 export async function obtenerSeccion(slug, limite = 10) {
-  const rows = await pedir(`/secciones/${slug}?limite=${limite}`)
-  return rows.map(desdeBD)
+  const json = await pedir(`/secciones/${slug}?limite=${limite}`)
+  return {
+    total: json.total ?? 0,
+    libros: json.rows.map(desdeBD),
+    fuente: json.fuente ?? 'mysql',
+  }
 }
 
 export async function obtenerCategorias() {

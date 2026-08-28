@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './Libraria.css'
-import { obtenerLibros } from './librariaApi'
+import { obtenerLibros, obtenerSeccion } from './librariaApi'
 import Admin from './Admin'
 import Autores from './Autores'
 import Categorias from './Categorias'
@@ -13,8 +13,9 @@ const navLinks = [
   { label: 'Destacados', vista: 'destacados' },
 ]
 
-function Header({ buscar, onBuscar, onAdmin, onNav }) {
+function Header({ buscar, onBuscar, onAdmin, onNav, vistaActual }) {
     const [texto, setTexto] = useState(buscar)
+    const [menuAbierto, setMenuAbierto] = useState(false)
 
     const manejarBusqueda = (e) => {
         e.preventDefault()
@@ -52,6 +53,17 @@ function Header({ buscar, onBuscar, onAdmin, onNav }) {
                     ADMIN
                 </button>
 
+           {/* BOTÓN HAMBURGUESA - SOLO MÓVIL */}
+                <button
+                  type="button"
+                  className="menu-hamburguesa"
+                  onClick={() => setMenuAbierto(!menuAbierto)}
+                  aria-label={menuAbierto ? 'Cerrar menú' : 'Abrir menú'}
+                  aria-expanded={menuAbierto}
+                >
+                  {menuAbierto ? '×' : '☰'}
+                </button>
+
             </div>
 
             <div className="header-inferior">
@@ -61,12 +73,35 @@ function Header({ buscar, onBuscar, onAdmin, onNav }) {
                         <a
                             key={link.label}
                             href="#"
+                            className={vistaActual === link.vista ? 'active' : ''}
                             onClick={(e) => { e.preventDefault(); onNav(link.vista) }}
                         >
                             {link.label}
                         </a>
                     ))}
                 </nav>
+             
+                        {/* MENÚ DESPLEGABLE MÓVIL */}
+                <div
+                  className={`menu-mobile-panel ${
+                  menuAbierto ? 'abierto' : ''
+                  }`}
+                >
+                  {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href="#"
+                    className={vistaActual === link.vista ? 'active' : ''}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onNav(link.vista)
+                      setMenuAbierto(false)
+                      }}
+                  >
+                  {link.label}
+                </a>
+              ))}
+            </div>
 
                 <form
                     className="buscador"
@@ -185,7 +220,54 @@ function FullWidthBookItem({ book, onDetalle}) {
   )
 }
 
-function BookDetail({ book, onVolver }) {
+function SeccionLibros({ slug, titulo, descripcion, onVolver, onDetalle }) {
+  const [libros, setLibros] = useState([])
+  const [cargando, setCargando] = useState(true)
+
+  useEffect(() => {
+    let activo = true
+    obtenerSeccion(slug, 12)
+      .then(({ libros }) => {
+        if (!activo) return
+        setLibros(libros)
+      })
+      .catch(console.error)
+      .finally(() => activo && setCargando(false))
+    return () => { activo = false }
+  }, [slug])
+
+  return (
+    <div className="seccion-page">
+      <div className="seccion-header">
+        <div className="seccion-header-texto">
+          <h2>{titulo}</h2>
+          {descripcion && <p>{descripcion}</p>}
+        </div>
+        <button type="button" className="seccion-volver" onClick={onVolver}>
+          ← Volver al catálogo
+        </button>
+      </div>
+
+      {cargando && <p className="seccion-cargando">Cargando libros...</p>}
+
+      {!cargando && libros.length === 0 && (
+        <p className="seccion-vacio">No hay libros en esta sección.</p>
+      )}
+
+      {!cargando && libros.length > 0 && (
+        <div className="books-gird">
+          <ul>
+            {libros.map((book) => (
+              <GridBookItem key={book.id} book={book} onDetalle={onDetalle} />
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function BookDetail({ book, onVolver, etiquetaVolver = 'Volver al catálogo' }) {
     if (!book) return null
 
     return (
@@ -198,7 +280,7 @@ function BookDetail({ book, onVolver }) {
                     className="detalle-volver"
                     onClick={onVolver}
                 >
-                    ← Volver al catálogo
+                    ← {etiquetaVolver}
                 </button>
 
                 <div className="detalle-contenido">
@@ -339,10 +421,10 @@ function Footer() {
 
     </div>
               <div className="footer-social">
-                <span className="social-icon"><i className="fa fa-facebook"></i></span>
-                <span className="social-icon"><i className="fa fa-twitter"></i></span>
-                <span className="social-icon"><i className="fa fa-instagram"></i></span>
-                <span className="social-icon"><i className="fa fa-youtube"></i></span>
+                <span className="social-icon"><i className="fab fa-facebook"></i></span>
+                <span className="social-icon"><i className="fab fa-twitter"></i></span>
+                <span className="social-icon"><i className="fab fa-instagram"></i></span>
+                <span className="social-icon"><i className="fab fa-youtube"></i></span>
               </div>
             </div>
           </div>
@@ -386,6 +468,7 @@ export default function Libraria() {
     <div>
       <Header
         buscar={buscar}
+        vistaActual={vista}
         onBuscar={(t) => { setBuscar(t); setCategoria(''); setPagina(1) }}
         onAdmin={() => setVista('admin')}
         onNav={(v) => { setVista(v); if (v === 'catalogo') { setBuscar(''); setCategoria(''); setPagina(1) } }}
@@ -405,14 +488,39 @@ export default function Libraria() {
         />
       )}
 
-      {vista === 'catalogo' && (libroSeleccionado ? (
+      {vista === 'destacados' && !libroSeleccionado && (
+        <SeccionLibros
+          slug="destacados"
+          titulo="Destacados"
+          descripcion="Libros seleccionados por el equipo y los mejor valorados de la biblioteca"
+          onVolver={() => setVista('catalogo')}
+          onDetalle={setLibroSeleccionado}
+        />
+      )}
+
+      {vista === 'novedades' && !libroSeleccionado && (
+        <SeccionLibros
+          slug="novedades"
+          titulo="Novedades"
+          descripcion="Libros publicados más recientemente en la biblioteca"
+          onVolver={() => setVista('catalogo')}
+          onDetalle={setLibroSeleccionado}
+        />
+      )}
+
+      {libroSeleccionado ? (
 
     <BookDetail
       book={libroSeleccionado}
       onVolver={() => setLibroSeleccionado(null)}
+      etiquetaVolver={
+        vista === 'destacados' ? 'Volver a Destacados'
+        : vista === 'novedades' ? 'Volver a Novedades'
+        : 'Volver al catálogo'
+      }
     />
 
-  ) : (
+  ) : vista === 'catalogo' && (
     <>
       <section className="page-banner services-banner">
         <div className="container">
@@ -553,7 +661,6 @@ export default function Libraria() {
 
       <Footer />
       </>
-      )
       )}
     </div>
   )

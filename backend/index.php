@@ -555,6 +555,53 @@ function listarSeccion(array $segmentos): void
 
     $limite = min(50, max(1, (int)($_GET['limite'] ?? 10)));
 
+    if ($slug === 'novedades') {
+        $stmt = db()->prepare(
+            "SELECT v.*
+             FROM vw_libraria_libros v
+             ORDER BY v.anio DESC, v.id DESC
+             LIMIT {$limite}"
+        );
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        responder(['total' => count($rows), 'rows' => $rows, 'fuente' => 'mysql']);
+    }
+
+    if ($slug === 'destacados') {
+        $rows = [];
+
+        $stmt = db()->prepare(
+            "SELECT v.*
+             FROM vw_libraria_libros v
+             JOIN libro_seccion ls ON ls.libro_id = v.id
+             JOIN seccion s ON s.id = ls.seccion_id
+             WHERE s.slug = 'destacados'
+             ORDER BY ls.posicion
+             LIMIT {$limite}"
+        );
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+
+        $yaIncluidos = count($rows);
+        if ($yaIncluidos < $limite) {
+            $ids = array_map(static fn($r) => (int)$r['id'], $rows);
+            $excluir = $ids ? implode(',', $ids) : '0';
+            $faltan = $limite - $yaIncluidos;
+
+            $stmt = db()->prepare(
+                "SELECT v.*
+                 FROM vw_libraria_libros v
+                 WHERE v.id NOT IN ({$excluir})
+                 ORDER BY v.rating DESC, v.votos DESC, v.popularidad DESC, v.id
+                 LIMIT {$faltan}"
+            );
+            $stmt->execute();
+            $rows = array_merge($rows, $stmt->fetchAll());
+        }
+
+        responder(['total' => count($rows), 'rows' => $rows, 'fuente' => 'mysql']);
+    }
+
     $stmt = db()->prepare(
         "SELECT v.*
          FROM vw_libraria_libros v
@@ -565,8 +612,9 @@ function listarSeccion(array $segmentos): void
          LIMIT {$limite}"
     );
     $stmt->execute([$slug]);
+    $rows = $stmt->fetchAll();
 
-    responder($stmt->fetchAll());
+    responder(['total' => count($rows), 'rows' => $rows, 'fuente' => 'mysql']);
 }
 
 // ---------------------------------------------------------------- ROUTER

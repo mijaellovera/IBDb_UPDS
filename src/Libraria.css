@@ -6,10 +6,6 @@
   --lr-light-gray: #f3f3f3;
 }
 
-.header-search-form {
-  display: flex;
-  margin-top: 2px;
-}
 .header-search-form input {
   flex: 1;
   height: 32px;
@@ -161,13 +157,13 @@
     line-height: 1;
 }
 
-.logo small {
-    color: #aaaaaa;
-    margin-top: 5px;
-    font-size: 11px;
+.logo p {
+    color: #ffffff;
+    margin: 5px 0 0;
+    font-size: 14px;
 }
 
-.contacto {
+/*.contacto {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,10 +171,10 @@
     flex: 1;
     color: #dddddd;
     font-size: 12px;
-}
+}*/
 
 .admin {
-    background: transparent;
+    background: #ff7236;
     color: #ffffff;
     border: 1px solid #ff7236;
     height: 40px;
@@ -188,7 +184,7 @@
 }
 
 .admin:hover {
-    background: #ff7236;
+    background: #fff4c6;
 }
 
 .buscador {
@@ -255,100 +251,261 @@
     padding: 16px 0;
 }
 
-.menu a:first-child,
 .menu a:hover {
     color: #ff7236;
+}
+
+.menu a.active {
+    color: #ff7236;
+}
+/* =========================================
+   MENÚ HAMBURGUESA
+   ========================================= */
+
+/* Oculto en escritorio */
+.menu-hamburguesa {
+    display: none;
+}
+
+.menu-mobile-panel {
+    display: none;
 }
 /* RESPONSIVE */
 
 @media (max-width: 900px) {
 
+    .header-contenedor {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
     .header-superior {
         flex-wrap: wrap;
     }
 
-    .header-inferior {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
+    .logo-imagen {
+        width: 130px;
+        height: 90px;
+    }
+
+    .logo strong {
+        font-size: 34px;
+    }
+}
+/* =========================================
+   HEADER - CELULAR
+   ========================================= */
+
+@media (max-width: 767px) {
+
+    .header-contenedor {
+        padding: 15px 12px 0;
+    }
+
+
+    /* PARTE SUPERIOR */
+
+    .header-superior {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "logo logo"
+            "hamburguesa admin";
+        align-items: center;
+        column-gap: 20px;
+        row-gap: 18px;
+        margin-bottom: 15px;
     }
 
     .logo {
-        flex: 1;
+        grid-area: logo;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: none;
     }
 
-    .contacto {
-        display: none;
+    .logo-imagen {
+        width: 110px;
+        height: 80px;
+    }
+
+    .logo strong {
+        font-size: 28px;
+    }
+
+    .logo p {
+        font-size: 13px;
     }
 
     .admin {
-        padding: 0 15px;
+        grid-area: admin;
+        width: auto;
+        min-width: 100px;
+        max-width: none;
+        height: 45px;
+        justify-self: end;
+        padding: 0 18px;
     }
+
+
+    /* PARTE INFERIOR */
+
+    .header-inferior {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+
+        padding: 12px 0;
+
+        border-top: 1px solid #4a4a4a;
+        border-bottom: 1px solid #4a4a4a;
+    }
+
+
+    /* OCULTAR MENÚ DE ESCRITORIO */
 
     .menu {
-        justify-content: center;
+        display: none !important;
     }
 
-    .menu a {
-        white-space: nowrap;
+
+    /* BOTÓN HAMBURGUESA */
+
+    .menu-hamburguesa {
+        grid-area: hamburguesa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 45px;
+        justify-self: start;
+        margin: 0;
+        justify-self: start;
+        background: #ff7236;
+        border: 1px solid #ff7236;
+        color: #ffffff;
+        font-size: 28px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+
+
+    /* MENÚ MÓVIL CERRADO */
+
+    .menu-mobile-panel {
+        display: none;
+
+        width: 100%;
+
+        background: rgba(30, 30, 30, 0.95);
+        border: 1px solid #555555;
+    }
+
+
+    /* MENÚ MÓVIL ABIERTO */
+
+    .menu-mobile-panel.abierto {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .menu-mobile-panel a {
+        display: block;
+
+        width: 100%;
+        padding: 13px 15px;
+
+        color: #ffffff;
+
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        border-bottom: 1px solid #555555;
+    }
+
+    .menu-mobile-panel a:last-child {
+        border-bottom: none;
+    }
+
+    .menu-mobile-panel a:hover,
+    .menu-mobile-panel a.active {
+        color: #ff7236;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* BUSCADOR */
+
+    .buscador {
+        display: flex;
+
+        width: 100%;
+        max-width: 100%;
+
+        margin: 0;
+    }
+
+    .buscador input {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .buscador button {
+        width: 85px;
+        flex-shrink: 0;
     }
 }
 
 @media (max-width: 480px) {
 
     .header-contenedor {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
-    .header-superior {
-        gap: 12px;
+    .logo-imagen {
+        width: 90px;
+        height: 70px;
     }
 
     .logo strong {
-        font-size: 18px;
+        font-size: 24px;
     }
 
-    .mi-buscador {
-        width: 100%;
-        margin-bottom: 15px;
+    .logo p {
+        font-size: 12px;
     }
 
     .buscador button {
-        width: 80px;
-        font-size: 11px;
-    }
-
-    .menu {
-        gap: 20px;
+        width: 75px;
+        font-size: 10px;
     }
 }
 /* ==========================================
    LIBROS - TARJETAS SIMÉTRICAS
    ========================================== */
 
-.books-gird {
-    width: 100% !important;
-}
-
 .books-gird > ul {
-    display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 30px 20px !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    list-style: none !important;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 0;
 }
 
-.books-gird > ul > li.book-grid-item {
-    width: auto !important;
-    max-width: none !important;
-    min-width: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
+.books-gird > ul > li {
+    width: 25%;
+    padding: 0 15px;
+    margin-bottom: 30px;
+    list-style: none;
+    box-sizing: border-box;
 }
+
 /* Tarjeta completa */
 .book-grid-item {
     list-style: none;
@@ -478,18 +635,18 @@
     }
 
     .book-cover {
-        height: 480px;
+        height: 300px;
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
 
     .books-gird > ul > li {
         width: 100%;
     }
 
     .book-cover {
-        height: 480px;
+        height: 360px;
     }
 }
 
@@ -874,4 +1031,55 @@
     font-size: 18px;
     font-weight: bold;
     line-height: 1;
+}
+
+/* =========================================================
+   SECCIONES (DESTACADOS / NOVEDADES)
+   ========================================================= */
+
+.seccion-page {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.seccion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.seccion-header-texto h2 {
+    margin: 0;
+}
+
+.seccion-header-texto p {
+    margin: 4px 0 0;
+    color: #888;
+    font-size: 14px;
+}
+
+.seccion-volver {
+  padding: 8px 18px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.seccion-volver:hover {
+    background: #f5f5f5;
+}
+
+.seccion-cargando {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+}
+
+.seccion-vacio {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
 }
