@@ -296,7 +296,7 @@
    HEADER - CELULAR
    ========================================= */
 
-@media (max-width: 767px) {
+@media (max-width: 1000px) {
 
     .header-contenedor {
         padding: 15px 12px 0;
