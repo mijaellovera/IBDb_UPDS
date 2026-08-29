@@ -961,76 +961,171 @@
     background: #ff7236;
 }
 
+/* =========================================================
+   PAGINACIÓN
+   ========================================================= */
+
 .navigation.pagination {
-    position: relative;
     width: 100%;
+    max-width: 100%;
+    margin: 35px 0;
+    padding: 0 15px;
+    box-sizing: border-box;
 }
 
 .navigation.pagination .nav-links {
-    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+    max-width: 100%;
     min-height: 44px;
+    box-sizing: border-box;
 }
 
-/* Los números de página permanecen centrados */
+
+/* =========================================================
+   NÚMEROS
+   ========================================================= */
+
 .navigation.pagination .nav-links .page-numbers {
     flex: 0 0 auto;
+    box-sizing: border-box;
 }
 
-/* Previous queda fijo a la izquierda */
-.navigation.pagination .nav-links .prev {
-    position: absolute;
-    right: calc(50% + 190px);
-}
 
-/* Next queda fijo a la derecha */
-.navigation.pagination .nav-links .next {
-    position: absolute;
-    left: calc(50% + 190px);
-}
-
-/* =========================================
-   BOTONES PREVIOUS / NEXT
-========================================= */
+/* =========================================================
+   PREVIOUS / NEXT
+   ========================================================= */
 
 .navigation.pagination .prev.page-numbers,
 .navigation.pagination .next.page-numbers {
+    position: static;
+
     background-color: #f28c28;
     color: #ffffff !important;
+
     border: 1px solid #f28c28;
+
     padding: 10px 18px;
+
     border-radius: 4px;
+
     font-weight: 600;
+
     text-decoration: none;
+
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
+
     gap: 6px;
+
+    white-space: nowrap;
+
+    flex: 0 0 auto;
+
+    box-sizing: border-box;
+
     transition: all 0.2s ease;
 }
 
-/* Texto y flechas en blanco */
-.navigation.pagination .prev.page-numbers,
-.navigation.pagination .next.page-numbers,
+
+/* =========================================================
+   FLECHAS
+   ========================================================= */
+
 .navigation.pagination .pagination-arrow {
     color: #ffffff !important;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    line-height: 1;
+
+    flex-shrink: 0;
 }
 
-/* Cuando pasamos el mouse */
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
 .navigation.pagination .prev.page-numbers:hover,
 .navigation.pagination .next.page-numbers:hover {
     background-color: #d97706;
+
     border-color: #d97706;
+
     color: #ffffff !important;
 }
 
-/* Flechas */
-.pagination-arrow {
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 1;
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .navigation.pagination {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .navigation.pagination .nav-links {
+        gap: 5px;
+    }
+
+    .navigation.pagination .prev.page-numbers,
+    .navigation.pagination .next.page-numbers {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .navigation.pagination .pagination-arrow {
+        font-size: 16px;
+    }
+}
+
+
+/* =========================================================
+   CELULAR
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .navigation.pagination {
+        width: 100%;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .navigation.pagination .nav-links {
+        width: 100%;
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .navigation.pagination .prev.page-numbers,
+    .navigation.pagination .next.page-numbers {
+        padding: 7px 9px;
+        font-size: 12px;
+    }
+
+    .navigation.pagination .pagination-arrow {
+        font-size: 14px;
+    }
+
+    .navigation.pagination .page-numbers.current,
+    .navigation.pagination a.page-numbers {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
 }
 
 /* =========================================================
