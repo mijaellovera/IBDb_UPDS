@@ -127,3 +127,12 @@
   padding: 60px 20px;
   color: #888;
 }
+
+
+@media (min-width: 969px) {
+  
+  .autores-lista{
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+  }
+}
