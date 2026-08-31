@@ -96,6 +96,7 @@ function listarLibros(): void
 
     $mapaOrden = [
         'default'    => 'id',
+        'alphabetical' => 'titulo ASC',
         'popularity' => 'popularidad DESC, votos DESC',
         'rating'     => 'rating DESC, votos DESC',
         'newness'    => 'anio DESC',

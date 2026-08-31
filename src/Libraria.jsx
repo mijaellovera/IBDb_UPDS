@@ -438,7 +438,7 @@ export default function Libraria() {
   const [view] = useState('grid')
   const [libros, setLibros] = useState([])
   const [total, setTotal] = useState(0)
-  const [orden, setOrden] = useState('default')
+  const [orden, setOrden] = useState('alphabetical')
   const [buscar, setBuscar] = useState('')
   const [pagina, setPagina] = useState(1)
   const [libroSeleccionado, setLibroSeleccionado] = useState(null)
@@ -564,6 +564,7 @@ export default function Libraria() {
                       <div className="row" style={{margin: "25px"}}>
                         <div className="col-md-4 col-sm-4">
                           <select name="orderby" value={orden} onChange={(e) => { setOrden(e.target.value); setPagina(1) }}>
+                            <option value="alphabetical">Sort alphabetically</option>
                             <option value="default">Default sorting</option>
                             <option value="popularity">Sort by popularity</option>
                             <option value="rating">Sort by rating</option>

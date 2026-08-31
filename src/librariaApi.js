@@ -27,7 +27,7 @@ async function pedir(ruta) {
   return res.json()
 }
 
-export async function obtenerLibros({ buscar = '', categoria = '', orden = 'default', pagina = 1, porPagina = 12 } = {}) {
+export async function obtenerLibros({ buscar = '', categoria = '', orden = 'alphabetical', pagina = 1, porPagina = 12 } = {}) {
   const params = new URLSearchParams({ buscar, categoria, orden, pagina, porPagina })
   const json = await pedir(`/libros?${params}`)
   return {
