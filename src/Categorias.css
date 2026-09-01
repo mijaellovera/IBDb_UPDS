@@ -78,3 +78,61 @@
   padding: 60px 20px;
   color: #888;
 }
+
+@media (max-width: 767px) {
+    .categorias-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        column-gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .categorias-header-texto {
+        min-width: 0;
+    }
+
+    .categorias-header-texto h2 {
+        font-size: 26px;
+    }
+
+    .categorias-header-texto p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .categorias-volver {
+        width: auto;
+        flex-shrink: 0;
+
+        /* MANTENER EL TAMAÑO ORIGINAL */
+        padding: 8px 18px;
+        font-size: 14px;
+        line-height: normal;
+
+        white-space: nowrap;
+        box-sizing: border-box;
+        transform: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .categorias-header {
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: 8px;
+    }
+
+    .categorias-header-texto h2 {
+        font-size: 22px;
+    }
+
+    .categorias-header-texto p {
+        font-size: 12px;
+    }
+
+    /* El botón NO se reduce */
+    .categorias-volver {
+        padding: 8px 18px;
+        font-size: 14px;
+    }
+}

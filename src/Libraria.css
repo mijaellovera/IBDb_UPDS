@@ -163,16 +163,6 @@
     font-size: 14px;
 }
 
-/*.contacto {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-    flex: 1;
-    color: #dddddd;
-    font-size: 12px;
-}*/
-
 .admin {
     background: #ff7236;
     color: #ffffff;
@@ -272,7 +262,7 @@
 }
 /* RESPONSIVE */
 
-@media (max-width: 900px) {
+@media (min-width: 767px) and (max-width: 991px) {
 
     .header-contenedor {
         padding-left: 20px;
@@ -280,16 +270,74 @@
     }
 
     .header-superior {
-        flex-wrap: wrap;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+
+    .logo {
+        flex: 1 1 auto;
+        min-width: 0;
     }
 
     .logo-imagen {
         width: 130px;
         height: 90px;
+        flex-shrink: 0;
     }
 
     .logo strong {
         font-size: 34px;
+    }
+
+    .admin {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    /* =========================
+       BUSCADOR
+       ========================= */
+
+    .buscador {
+        display: flex;
+        width: 500px;
+        max-width: 50%;
+        margin: 0 0 0 auto;
+    }
+
+    .buscador input {
+        flex: 1;
+        min-width: 0;
+        height: 38px;
+
+        padding: 0 12px;
+
+        background: #404040;
+        border: 1px solid #666666;
+        border-right: none;
+
+        color: #ffffff;
+        outline: none;
+    }
+
+    /* =========================
+       HEADER INFERIOR
+       ========================= */
+
+    .header-inferior {
+        gap: 20px;
+    }
+
+    .menu {
+        gap: 20px;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .menu a {
+        font-size: 16px;
     }
 }
 /* =========================================
@@ -486,47 +534,60 @@
         font-size: 10px;
     }
 }
+```css
 /* ==========================================
-   LIBROS - TARJETAS SIMÉTRICAS
+  ```css
+/* ==========================================
+   LIBROS - GRID RESPONSIVE
    ========================================== */
 
-.books-gird > ul {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -15px;
-    margin-right: -15px;
-    padding: 0;
+.books-gird {
+    width: 100%;
 }
 
-.books-gird > ul > li {
-    width: 25%;
-    padding: 0 15px;
-    margin-bottom: 30px;
+.books-gird > ul {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 30px 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     list-style: none;
     box-sizing: border-box;
 }
 
-/* Tarjeta completa */
+.books-gird > ul > li {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+}
+
 .book-grid-item {
+    width: 100%;
     list-style: none;
 }
 
-/* Contenedor de la portada */
 .book-card {
-    margin: 0;
     width: 100%;
+    margin: 0;
 }
 
-/* Todas las portadas tienen exactamente el mismo tamaño */
+
+/* ==========================================
+   PORTADA
+   ========================================== */
+
 .book-cover {
     position: relative;
     width: 100%;
-    height: 360px;
+    aspect-ratio: 2 / 3;
     overflow: hidden;
     background: #eeeeee;
 }
 
-/* Imagen */
 .book-cover img {
     display: block;
     width: 100%;
@@ -536,39 +597,35 @@
     transition: transform 0.3s ease;
 }
 
-/* Información inicialmente oculta */
+
+/* ==========================================
+   INFORMACIÓN AL PASAR EL MOUSE
+   ========================================== */
+
 .book-overlay {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
-
     padding: 18px 15px;
-
     background: rgba(0, 0, 0, 0.88);
     color: #ffffff;
-
     opacity: 0;
     visibility: hidden;
-
     transform: translateY(100%);
-
     transition:
         opacity 0.25s ease,
         visibility 0.25s ease,
         transform 0.25s ease;
-
     box-sizing: border-box;
 }
 
-/* La información aparece SOLO al pasar el mouse */
 .book-card:hover .book-overlay {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-/* No modifica el tamaño de la tarjeta */
 .book-overlay h3 {
     margin: 0 0 8px;
     color: #ffffff;
@@ -583,19 +640,15 @@
     line-height: 1.4;
 }
 
-/* Botón */
 .book-overlay .btn-ver-detalle {
     display: inline-block;
     margin-top: 10px;
     padding: 9px 15px;
-
     border: none;
     background: #ff7236;
     color: #ffffff;
-
     font-size: 11px;
     font-weight: 700;
-
     cursor: pointer;
 }
 
@@ -603,52 +656,58 @@
     background: #e84500;
 }
 
-/* Enlace Archive */
+
+/* Archive.org oculto en las tarjetas */
+
 .book-overlay .btn-primary {
-    display: inline-block;
-    margin-top: 10px;
+    display: none;
 }
+
 
 /* ==========================================
    TABLET
+   768px - 991px
    ========================================== */
 
 @media (max-width: 991px) {
 
-    .books-gird > ul > li {
-        width: 33.3333%;
+    .books-gird > ul {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 25px 18px;
     }
 
-    .book-cover {
-        height: 340px;
-    }
 }
+
 
 /* ==========================================
    MÓVIL
+   481px - 767px
    ========================================== */
 
-@media (max-width: 767px) {
+@media (max-width: 759px) {
 
-    .books-gird > ul > li {
-        width: 50%;
+    .books-gird > ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 15px;
     }
 
-    .book-cover {
-        height: 300px;
-    }
 }
+
+
+/* ==========================================
+   MÓVIL PEQUEÑO
+   Hasta 480px
+   ========================================== */
 
 @media (max-width: 480px) {
 
-    .books-gird > ul > li {
-        width: 100%;
+    .books-gird > ul {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    .book-cover {
-        height: 360px;
-    }
 }
+
 
 /* =========================================================
    VISTA DETALLE DEL LIBRO
@@ -1178,3 +1237,4 @@
     padding: 60px 20px;
     color: #888;
 }
+
