@@ -143,3 +143,89 @@
   padding: 9px 4px;
   border-bottom: 1px solid #eee;
 }
+
+/* ============================================================
+   RESPONSIVE - TABLET / MÓVIL
+   ============================================================ */
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 0 12px;
+    margin: 24px auto;
+  }
+
+  .admin-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .admin-tabs {
+    flex-wrap: wrap;
+  }
+
+  .admin-tabs button {
+    flex: 1 1 auto;
+    padding: 10px 14px;
+  }
+
+  .admin-form {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form .admin-acciones {
+    flex-wrap: wrap;
+  }
+
+  .admin-form button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-tabla {
+    display: block;
+  }
+
+  .admin-tabla thead {
+    display: none;
+  }
+
+  .admin-tabla tbody {
+    display: block;
+  }
+
+  .admin-tabla tbody tr {
+    display: block;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+
+  .admin-tabla td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: right;
+  }
+
+  .admin-tabla td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #555;
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  .admin-tabla td:last-child {
+    border-bottom: none;
+  }
+
+  .admin-lista li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

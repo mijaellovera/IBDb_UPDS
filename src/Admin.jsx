@@ -212,13 +212,13 @@ export default function Admin({ volver }) {
             <tbody>
               {libros.map((libro) => (
                 <tr key={libro.id}>
-                  <td>{libro.id}</td>
-                  <td><img src={libro.img} alt="" /></td>
-                  <td>{libro.title}</td>
-                  <td>{libro.author}</td>
-                  <td>{libro.year ?? '—'}</td>
-                  <td>{libro.rating ?? '—'}</td>
-                  <td>
+                  <td data-label="ID">{libro.id}</td>
+                  <td data-label="Portada"><img src={libro.img} alt="" /></td>
+                  <td data-label="Título">{libro.title}</td>
+                  <td data-label="Autor">{libro.author}</td>
+                  <td data-label="Año">{libro.year ?? '—'}</td>
+                  <td data-label="Rating">{libro.rating ?? '—'}</td>
+                  <td data-label="Acciones">
                     <button className="admin-editar" onClick={() => editarLibro(libro)}>Editar</button>
                     <button className="admin-borrar" onClick={() => borrarLibro(libro.id, libro.title)}>Eliminar</button>
                   </td>
