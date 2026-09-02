@@ -240,9 +240,10 @@ function SeccionLibros({ slug, titulo, descripcion, onVolver, onDetalle }) {
     <div className="seccion-page">
       <div className="seccion-header">
         <div className="seccion-header-texto">
-          <h2>{titulo}</h2>
           {descripcion && <p>{descripcion}</p>}
         </div>
+      </div>
+      <div style={{display: 'flex' ,justifyContent: 'right'}}>
         <button type="button" className="seccion-volver" onClick={onVolver}>
           ← Volver al catálogo
         </button>
@@ -253,6 +254,7 @@ function SeccionLibros({ slug, titulo, descripcion, onVolver, onDetalle }) {
       {!cargando && libros.length === 0 && (
         <p className="seccion-vacio">No hay libros en esta sección.</p>
       )}
+
 
       {!cargando && libros.length > 0 && (
         <div className="books-gird">
@@ -363,7 +365,6 @@ function BookDetail({ book, onVolver, etiquetaVolver = 'Volver al catálogo' }) 
                                 rel="noreferrer"
                                 className="detalle-leer"
                             >
-                                LEER EN ARCHIVE.ORG
                             </a>
                         )}
 

@@ -25,15 +25,16 @@ export default function Categorias({ onVolver, onVerLibros }) {
 
   return (
     <div className="categorias-page">
-
-      <div className="categorias-header">
         <div className="categorias-header-texto">
-          <h2>Categorías</h2>
           <p>{categorias.length} categoría{categorias.length !== 1 && 's'} en la biblioteca</p>
         </div>
+      <div className="categorias-header">
+        
+        <div style={{display: 'flex' ,justifyContent: 'right'}}>
         <button type="button" className="categorias-volver" onClick={onVolver}>
           ← Volver al catálogo
         </button>
+        </div>
       </div>
 
       {categorias.length > 0 ? (

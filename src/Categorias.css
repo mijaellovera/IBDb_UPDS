@@ -12,12 +12,9 @@
   margin-bottom: 24px;
 }
 
-.categorias-header-texto h2 {
-  margin: 0;
-}
 
 .categorias-header-texto p {
-  margin: 4px 0 0;
+  margin: 4px 0 8px;
   color: #888;
   font-size: 14px;
 }

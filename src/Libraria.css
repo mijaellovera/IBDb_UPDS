@@ -1237,4 +1237,61 @@
     padding: 60px 20px;
     color: #888;
 }
+@media (max-width: 767px) {
+    .seccion-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        column-gap: 12px;
+        margin-bottom: 24px;
+    }
 
+    .seccion-header-texto {
+        min-width: 0;
+    }
+
+    .seccion-header-texto h2 {
+        font-size: 26px;
+    }
+
+    .seccion-header-texto p {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .seccion-volver {
+        width: auto;
+        flex-shrink: 0;
+
+        /* MANTENER EL TAMAÑO ORIGINAL */
+        padding: 8px 18px;
+        font-size: 14px;
+        line-height: normal;
+
+        white-space: nowrap;
+        box-sizing: border-box;
+        transform: none;
+        justify-content: right;
+    }
+}
+
+@media (max-width: 480px) {
+    .seccion-header {
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: 8px;
+    }
+
+    .seccion-header-texto h2 {
+        font-size: 22px;
+    }
+
+    .seccion-header-texto p {
+        font-size: 12px;
+    }
+
+    /* El botón NO se reduce */
+    .seccion-volver {
+        padding: 8px 18px;
+        font-size: 14px;
+    }
+}

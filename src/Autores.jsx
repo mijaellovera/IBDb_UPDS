@@ -58,15 +58,16 @@ export default function Autores({ onVolver, onVerObras }) {
 
   return (
     <div className="autores-page">
-
-      <div className="autores-header">
         <div className="autores-header-texto">
-          <h2>Índice de Autores</h2>
           <p>{autores.length} autor{autores.length !== 1 && 'es'} en la biblioteca</p>
         </div>
+        <div className="autores-header">
+        
+        <div style={{display: 'flex' ,justifyContent: 'right'}}>
         <button type="button" className="autores-volver" onClick={onVolver}>
           ← Volver al catálogo
         </button>
+        </div>
       </div>
 
       {letrasDisponibles.length > 0 && (
