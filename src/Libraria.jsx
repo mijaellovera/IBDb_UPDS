@@ -74,7 +74,7 @@ function Header({ buscar, onBuscar, onAdmin, onNav, vistaActual }) {
                             key={link.label}
                             href="#"
                             className={vistaActual === link.vista ? 'active' : ''}
-                            onClick={(e) => { e.preventDefault(); onNav(link.vista) }}
+                            onClick={(e) => { e.preventDefault();onNav(link.vista) }}
                         >
                             {link.label}
                         </a>
@@ -277,13 +277,15 @@ function BookDetail({ book, onVolver, etiquetaVolver = 'Volver al catálogo' }) 
             <div className="container">
 
                 {/* BOTÓN PARA VOLVER */}
-                <button
-                    type="button"
-                    className="detalle-volver"
-                    onClick={onVolver}
-                >
-                    ← {etiquetaVolver}
-                </button>
+                <div style={{display: 'flex', justifyContent: 'right'}}>
+                  <button
+                      type="button"
+                      className="detalle-volver"
+                      onClick={onVolver}
+                      >
+                      ← {etiquetaVolver}
+                  </button>
+                </div>
 
                 <div className="detalle-contenido">
 
@@ -471,21 +473,21 @@ export default function Libraria() {
         buscar={buscar}
         vistaActual={vista}
         onBuscar={(t) => { setBuscar(t); setCategoria(''); setPagina(1) }}
-        onAdmin={() => setVista('admin')}
-        onNav={(v) => { setVista(v); if (v === 'catalogo') { setBuscar(''); setCategoria(''); setPagina(1) } }}
+        onAdmin={() => {setLibroSeleccionado(null); setVista('admin')}}
+        onNav={(v) => { setVista(v); setLibroSeleccionado(null) ;if (v === 'catalogo') { setBuscar(''); setCategoria(''); setPagina(1) } }}
       />
 
       {vista === 'admin' && <Admin volver={() => setVista('catalogo')} />}
       {vista === 'autores' && (
         <Autores
-          onVolver={() => setVista('catalogo')}
-          onVerObras={(nombre) => { setBuscar(nombre); setPagina(1); setVista('catalogo') }}
+          onVolver={() => {setVista('catalogo'); setLibroSeleccionado(null)}}
+          onVerObras={(nombre) => { setLibroSeleccionado(null); setBuscar(nombre); setPagina(1); setVista('catalogo') }}
         />
       )}
       {vista === 'categorias' && (
         <Categorias
-          onVolver={() => setVista('catalogo')}
-          onVerLibros={(slug) => { setCategoria(slug); setPagina(1); setVista('catalogo') }}
+          onVolver={() => {setVista('catalogo'); setLibroSeleccionado(null)}}
+          onVerLibros={(slug) => { setLibroSeleccionado(null); setCategoria(slug); setPagina(1); setVista('catalogo') }}
         />
       )}
 
