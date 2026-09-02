@@ -530,12 +530,6 @@ export default function Libraria() {
             <span className="underline center"></span>
             <p className="lead">Catálogo de libros con datos de Open Library</p>
           </div>
-          <div className="breadcrumb">
-            <ul>
-              <li><a href="#">Home</a></li>
-              <li>Books &amp; Media</li>
-            </ul>
-          </div>
         </div>
       </section>
 
@@ -564,13 +558,6 @@ export default function Libraria() {
                     <div className="filter-options margin-list">
                       <div className="row" style={{margin: "25px"}}>
                         <div className="col-md-4 col-sm-4">
-                          <select name="orderby" value={orden} onChange={(e) => { setOrden(e.target.value); setPagina(1) }}>
-                            <option value="alphabetical">Sort alphabetically</option>
-                            <option value="default">Default sorting</option>
-                            <option value="popularity">Sort by popularity</option>
-                            <option value="rating">Sort by rating</option>
-                            <option value="newness">Sort by newness</option>
-                          </select>
                         </div>
                         <div className="col-md-4 col-sm-4">
                           <div className="filter-result">

@@ -13621,6 +13621,7 @@ a:focus {
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 100px;
+  max-height: 130px;
   position: relative;
   text-align: center;
 }
@@ -13671,11 +13672,7 @@ a:focus {
   position: relative;
   z-index: 10;
 }
-@media (max-width: 767px) {
-  .page-banner .banner-header {
-    padding-top: 90px;
-  }
-}
+
 .lead-text {
   margin-bottom: 15px;
   text-align: center;
