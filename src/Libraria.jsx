@@ -346,7 +346,7 @@ function BookDetail({ book, onVolver, etiquetaVolver = 'Volver al catálogo' }) 
                         {/* =========================
                             SINOPSIS
                         ========================== */}
-                        <div className="detalle-descripcion">
+                       {/* <div className="detalle-descripcion">
 
                             <h3>Sinopsis</h3>
 
@@ -355,7 +355,7 @@ function BookDetail({ book, onVolver, etiquetaVolver = 'Volver al catálogo' }) 
                                     'No hay una sinopsis disponible para este libro.'}
                             </p>
 
-                        </div>
+                        </div>*/}
 
                         {/* =========================
                             BOTÓN DE LECTURA
